@@ -1,0 +1,39 @@
+# WordPress uploads
+wp-content/uploads/
+
+# Cache
+wp-content/cache/
+wp-content/*/cache/
+
+# WordPress configuration
+wp-config.php
+
+# Environment
+.env
+.env.*
+
+# Logs
+*.log
+debug.log
+
+# Backups
+*.sql
+*.sql.gz
+*.zip
+*.tar
+*.tar.gz
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temporary
+*.tmp
+*.temp
+
+# Production server config
+.htaccess

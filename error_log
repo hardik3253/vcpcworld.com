@@ -1,0 +1,20 @@
+[20-Feb-2025 06:46:35 UTC] PHP Warning:  Cannot modify header information - headers already sent in /home3/vipulchu/public_html/vcpcworld.com/wp-includes/load.php on line 386
+[20-Feb-2025 06:50:39 UTC] Cron reschedule event error for hook: nfd_data_sync_cron, Error code: invalid_schedule, Error message: Event schedule does not exist., Data: {"schedule":"minutely","args":[],"interval":60}
+[26-Apr-2025 10:44:59 America/Boise] PHP Fatal error:  Uncaught Error: Undefined constant "ABSPATH" in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php:34
+Stack trace:
+#0 {main}
+  thrown in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php on line 34
+[26-Apr-2025 10:45:32 America/Boise] PHP Fatal error:  Uncaught Error: Undefined constant "ABSPATH" in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php:34
+Stack trace:
+#0 {main}
+  thrown in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php on line 34
+[05-Jun-2025 19:51:24 UTC] PHP Warning:  rename(/tmp/wpforms-lite.1.9.6-mHYFBE.tmp,/tmp/wpforms-lite.1.9.6.zip): Operation not permitted in /home3/vipulchu/public_html/vcpcworld.com/wp-admin/includes/file.php on line 1234
+[05-Jun-2025 19:51:24 UTC] PHP Warning:  unlink(/tmp/wpforms-lite.1.9.6.zip): Operation not permitted in /home3/vipulchu/public_html/vcpcworld.com/wp-admin/includes/file.php on line 1239
+[02-Aug-2025 20:02:23 America/Boise] PHP Fatal error:  Uncaught Error: Undefined constant "ABSPATH" in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php:34
+Stack trace:
+#0 {main}
+  thrown in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php on line 34
+[21-Aug-2025 13:30:06 America/Boise] PHP Fatal error:  Uncaught Error: Undefined constant "ABSPATH" in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php:34
+Stack trace:
+#0 {main}
+  thrown in /home3/vipulchu/public_html/vcpcworld.com/wp-settings.php on line 34

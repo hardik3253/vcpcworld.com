@@ -1,0 +1,4 @@
+[23-Jul-2025 23:43:32 America/Boise] PHP Fatal error:  Uncaught Error: Call to undefined function add_action() in /home3/vipulchu/public_html/vcpcworld.com/wp-includes/blocks/file.php:62
+Stack trace:
+#0 {main}
+  thrown in /home3/vipulchu/public_html/vcpcworld.com/wp-includes/blocks/file.php on line 62

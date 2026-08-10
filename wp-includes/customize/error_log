@@ -1,0 +1,4 @@
+[10-Aug-2025 00:41:20 America/Boise] PHP Fatal error:  Uncaught Error: Class "WP_Customize_Control" not found in /home3/vipulchu/public_html/vcpcworld.com/wp-includes/customize/class-wp-customize-date-time-control.php:17
+Stack trace:
+#0 {main}
+  thrown in /home3/vipulchu/public_html/vcpcworld.com/wp-includes/customize/class-wp-customize-date-time-control.php on line 17

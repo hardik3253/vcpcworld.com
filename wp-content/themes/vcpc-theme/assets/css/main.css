@@ -1,0 +1,249 @@
+/* ==========================================================================
+   VCPC — base + tokens
+   ========================================================================== */
+:root {
+	--color-bg: #faf8f5;
+	--color-ink: #16130f;
+	--color-ink-soft: #4a463f;
+	--color-line: #e2ddd3;
+	--color-accent: #8a6d3b; /* muted gold */
+	--color-dark-bg: #0f0e0c;
+	--color-dark-ink: #f6f2ea;
+
+	--font-display: Georgia, 'Times New Roman', serif;
+	--font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+
+	--section-max: 1140px;
+	--space-section: clamp(64px, 10vw, 160px);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+	margin: 0;
+	background: var(--color-bg);
+	color: var(--color-ink);
+	font-family: var(--font-body);
+	line-height: 1.6;
+	-webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+.section__inner {
+	max-width: var(--section-max);
+	margin: 0 auto;
+	padding: var(--space-section) 24px;
+}
+.section { position: relative; }
+.eyebrow {
+	text-transform: uppercase;
+	letter-spacing: 0.2em;
+	font-size: 0.75rem;
+	color: var(--color-accent);
+	margin-bottom: 16px;
+}
+.eyebrow--light { color: #d9c9a8; }
+
+.btn {
+	display: inline-block;
+	padding: 14px 32px;
+	border-radius: 2px;
+	font-size: 0.85rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	transition: all .25s ease;
+	border: 1px solid transparent;
+	cursor: pointer;
+}
+.btn--primary { background: var(--color-ink); color: #fff; }
+.btn--primary:hover { background: var(--color-accent); }
+.btn--outline-light { border-color: rgba(255,255,255,.6); color: #fff; }
+.btn--outline-light:hover { background: rgba(255,255,255,.1); }
+
+/* ==========================================================================
+   Nav
+   ========================================================================== */
+.vcpc-nav {
+	position: fixed;
+	top: 0; left: 0; right: 0;
+	z-index: 100;
+	background: transparent;
+	transition: background .3s ease, box-shadow .3s ease;
+}
+.vcpc-nav.is-scrolled {
+	background: rgba(250,248,245,.92);
+	backdrop-filter: blur(8px);
+	box-shadow: 0 1px 0 var(--color-line);
+}
+.vcpc-nav__inner {
+	max-width: var(--section-max);
+	margin: 0 auto;
+	padding: 20px 24px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+.vcpc-nav__logo {
+	font-family: var(--font-display);
+	font-size: 1.25rem;
+	letter-spacing: 0.15em;
+	color: #fff;
+}
+.vcpc-nav.is-scrolled .vcpc-nav__logo { color: var(--color-ink); }
+.vcpc-nav__links {
+	display: flex;
+	align-items: center;
+	gap: 32px;
+	font-size: 0.85rem;
+	letter-spacing: 0.05em;
+}
+.vcpc-nav__links a { color: #fff; }
+.vcpc-nav.is-scrolled .vcpc-nav__links a { color: var(--color-ink); }
+.vcpc-nav__cta {
+	border: 1px solid currentColor;
+	padding: 8px 18px;
+	border-radius: 2px;
+}
+.vcpc-nav__toggle { display: none; background: none; border: 0; cursor: pointer; }
+
+@media (max-width: 780px) {
+	.vcpc-nav__links {
+		position: fixed; inset: 0 0 0 30%;
+		background: var(--color-bg);
+		flex-direction: column;
+		justify-content: center;
+		transform: translateX(100%);
+		transition: transform .3s ease;
+	}
+	.vcpc-nav__links a { color: var(--color-ink); }
+	.vcpc-nav__links.is-open { transform: translateX(0); }
+	.vcpc-nav__toggle { display: block; }
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+.section--hero {
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	color: #fff;
+	overflow: hidden;
+}
+.section--hero .section__bg {
+	position: absolute; inset: 0;
+	background: linear-gradient(160deg, #1a1712 0%, #0f0e0c 60%, #262019 100%);
+}
+.hero__inner { position: relative; z-index: 1; max-width: 760px; }
+.hero__heading {
+	font-family: var(--font-display);
+	font-size: clamp(2.5rem, 6vw, 4.5rem);
+	line-height: 1.1;
+	margin: 0 0 24px;
+	font-weight: 400;
+}
+.hero__heading--accent { color: #d9c9a8; font-style: italic; }
+.hero__tagline { max-width: 480px; color: #d8d3c8; margin-bottom: 36px; }
+.hero__scroll-cue {
+	position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+	color: #fff; opacity: .6; font-size: 1.25rem;
+}
+
+/* ==========================================================================
+   Philosophy
+   ========================================================================== */
+.philosophy__title {
+	font-family: var(--font-display);
+	font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+	font-weight: 400;
+	max-width: 640px;
+}
+.philosophy__stack { margin: 48px 0; }
+.philosophy__line {
+	font-family: var(--font-display);
+	font-size: clamp(1.5rem, 4vw, 2.75rem);
+	margin: 0;
+	color: var(--color-ink-soft);
+}
+.philosophy__line--final { color: var(--color-ink); font-weight: 600; margin-top: 8px; }
+.philosophy__body { max-width: 560px; color: var(--color-ink-soft); }
+
+/* ==========================================================================
+   Milan teaser (dark, full-bleed)
+   ========================================================================== */
+.section--milan-teaser { color: #fff; }
+.section--milan-teaser .section__bg--milan {
+	position: absolute; inset: 0;
+	background: linear-gradient(180deg, #1a1712, #000);
+}
+.section--milan-teaser .section__inner { position: relative; z-index: 1; max-width: 680px; }
+.milan-teaser__body { font-family: var(--font-display); font-size: clamp(1.1rem, 2.5vw, 1.5rem); margin-bottom: 32px; color: #e6e1d6; }
+
+/* ==========================================================================
+   Coming soon
+   ========================================================================== */
+.coming-soon__grid {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 24px;
+	margin-top: 24px;
+}
+.coming-soon__card {
+	border: 1px solid var(--color-line);
+	padding: 40px;
+	text-align: center;
+}
+.coming-soon__card h3 { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 8px; }
+.coming-soon__card p { color: var(--color-ink-soft); margin: 0; }
+@media (max-width: 640px) { .coming-soon__grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   Join the Journey (form)
+   ========================================================================== */
+.section--join { background: #f2ede4; }
+.join__body { max-width: 520px; color: var(--color-ink-soft); margin-bottom: 32px; }
+.join__form { max-width: 640px; }
+.join__row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+.field label { display: block; font-size: 0.8rem; letter-spacing: .04em; margin-bottom: 6px; color: var(--color-ink-soft); }
+.field input, .field select {
+	width: 100%; padding: 12px 14px; border: 1px solid var(--color-line);
+	background: #fff; font-size: 0.95rem; border-radius: 2px; font-family: var(--font-body);
+}
+.field input:focus, .field select:focus { outline: none; border-color: var(--color-accent); }
+.join__submit { margin-top: 8px; }
+.join__status { margin-top: 16px; font-size: 0.9rem; }
+.join__status.is-success { color: #2f6b3d; }
+.join__status.is-error { color: #a33; }
+.hp-field { position: absolute; left: -9999px; opacity: 0; height: 0; width: 0; }
+@media (max-width: 640px) { .join__row { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   Story / Milan full
+   ========================================================================== */
+.story__body, .milan-full__body { max-width: 680px; }
+.story__body p, .milan-full__body p { color: var(--color-ink-soft); font-size: 1.05rem; margin-bottom: 20px; }
+.section--milan-full { background: #f2ede4; }
+
+/* ==========================================================================
+   Contact
+   ========================================================================== */
+.contact__title { font-family: var(--font-display); font-size: clamp(1.75rem, 3.5vw, 2.5rem); font-weight: 400; }
+.contact__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 32px; }
+.contact__grid h4 { margin: 0 0 8px; font-size: 0.85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--color-ink-soft); }
+.contact__grid a { font-size: 1.1rem; border-bottom: 1px solid var(--color-line); }
+@media (max-width: 640px) { .contact__grid { grid-template-columns: 1fr; } }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+.site-footer { background: var(--color-dark-bg); color: var(--color-dark-ink); padding: 64px 0 24px; }
+.site-footer__inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; padding-top: 0; padding-bottom: 0; }
+.site-footer__logo { font-family: var(--font-display); font-size: 1.5rem; margin: 0 0 8px; }
+.site-footer__brand p { margin: 2px 0; color: #cfc9bc; font-size: 0.9rem; }
+.site-footer__social { display: flex; gap: 20px; align-items: flex-start; font-size: 0.85rem; }
+.site-footer__copy { text-align: center; color: #7c7568; font-size: 0.8rem; margin-top: 48px; }
+
+/* Scroll-anim starting state (JS/GSAP toggles visibility) */
+[data-anim] { opacity: 0; transform: translateY(24px); }
+.no-js [data-anim] { opacity: 1; transform: none; } /* fail-safe if JS is blocked */

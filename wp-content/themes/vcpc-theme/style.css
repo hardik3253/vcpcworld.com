@@ -1,0 +1,11 @@
+/*
+Theme Name: VCPC
+Theme URI: https://vcpcworld.com
+Author: VCPC
+Description: Custom hand-coded one-page landing theme for VCPC — India's Luxury Professional Haircare House. No page builder, no ACF — pure WordPress template hierarchy.
+Version: 1.0.0
+Text Domain: vcpc
+*/
+
+/* Intentionally minimal — real styles live in assets/css/main.css and are enqueued via functions.php.
+   This file only needs to exist with the header above so WordPress recognizes the theme. */
