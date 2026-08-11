@@ -1,9 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$eyebrow    = vcpc_field( 'milan_full_milan_full_eyebrow', '' );
-$heading    = vcpc_field( 'milan_full_milan_full_heading', '' );
-$para_json  = vcpc_field( 'milan_full_milan_full_paragraphs', '' );
-$media_id   = vcpc_field( 'milan_full_milan_full_media', 0 );
+$eyebrow    = vcpc_field( 'milan_full_eyebrow', '' );
+$heading    = vcpc_field( 'milan_full_heading', '' );
+$para_json  = vcpc_field( 'milan_full_paragraphs', '' );
+$media_id   = vcpc_field( 'milan_full_media', 0 );
 
 $paragraphs = [];
 if ( $para_json ) {

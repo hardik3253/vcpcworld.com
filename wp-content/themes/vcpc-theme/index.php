@@ -15,5 +15,17 @@ get_header();
 			</article>
 		<?php endwhile; endif; ?>
 	</div>
+    
+	<?php
+	// Also render the theme's one-page sections (same as front-page.php)
+	get_template_part( 'template-parts/section', 'hero' );
+	get_template_part( 'template-parts/section', 'philosophy' );
+	get_template_part( 'template-parts/section', 'milan-teaser' );
+	get_template_part( 'template-parts/section', 'coming-soon' );
+	get_template_part( 'template-parts/section', 'join' );
+	get_template_part( 'template-parts/section', 'story' );
+	get_template_part( 'template-parts/section', 'milan-full' );
+	get_template_part( 'template-parts/section', 'contact' );
+	?>
 </main>
 <?php get_footer(); ?>

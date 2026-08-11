@@ -1,9 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$heading        = vcpc_field( 'join_join_heading', '' );
-$sublines_json  = vcpc_field( 'join_join_sublines', '' );
-$audience_json  = vcpc_field( 'join_join_audience_options', '' );
-$submit_label   = vcpc_field( 'join_join_submit_label', '' );
+$heading        = vcpc_field( 'join_heading', '' );
+$sublines_json  = vcpc_field( 'join_sublines', '' );
+$audience_json  = vcpc_field( 'join_audience_options', '' );
+$submit_label   = vcpc_field( 'join_submit_label', '' );
 
 $sublines = [];
 if ( $sublines_json ) {
@@ -50,7 +50,7 @@ if ( ! empty( $heading ) || ! empty( $submit_label ) ) :
 						</div>
 
 						<?php
-						$fields_json = vcpc_field( 'join_join_form_fields', '' );
+						$fields_json = vcpc_field( 'join_form_fields', '' );
 						$fields = [];
 						if ( $fields_json ) {
 							$fields = json_decode( $fields_json, true );

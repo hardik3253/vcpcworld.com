@@ -1,7 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$heading    = vcpc_field( 'coming_soon_coming_soon_heading', '' );
-$items_json = vcpc_field( 'coming_soon_coming_soon_items', '' );
+$heading    = vcpc_field( 'coming_soon_heading', '' );
+$items_json = vcpc_field( 'coming_soon_items', '' );
 
 $items = [];
 if ( $items_json ) {

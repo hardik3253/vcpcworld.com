@@ -1,7 +1,7 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$heading      = vcpc_field( 'contact_contact_heading', '' );
-$entries_json = vcpc_field( 'contact_contact_entries', '' );
+$heading      = vcpc_field( 'contact_heading', '' );
+$entries_json = vcpc_field( 'contact_entries', '' );
 
 $entries = [];
 if ( $entries_json ) {

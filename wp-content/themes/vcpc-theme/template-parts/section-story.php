@@ -1,9 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$eyebrow    = vcpc_field( 'story_story_eyebrow', '' );
-$heading    = vcpc_field( 'story_story_heading', '' );
-$para_json  = vcpc_field( 'story_story_paragraphs', '' );
-$image_id   = vcpc_field( 'story_story_image', 0 );
+$eyebrow    = vcpc_field( 'story_eyebrow', '' );
+$heading    = vcpc_field( 'story_heading', '' );
+$para_json  = vcpc_field( 'story_paragraphs', '' );
+$image_id   = vcpc_field( 'story_image', 0 );
 
 $paragraphs = [];
 if ( $para_json ) {

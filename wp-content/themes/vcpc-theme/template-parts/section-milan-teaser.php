@@ -1,10 +1,10 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$heading      = vcpc_field( 'milan_teaser_milan_teaser_heading', '' );
-$para_json    = vcpc_field( 'milan_teaser_milan_teaser_paragraphs', '' );
-$link_label   = vcpc_field( 'milan_teaser_milan_teaser_link_label', '' );
-$link_target  = vcpc_field( 'milan_teaser_milan_teaser_link_target', '' );
-$bg_image_id  = vcpc_field( 'milan_teaser_milan_teaser_background_image', 0 );
+$heading      = vcpc_field( 'milan_teaser_heading', '' );
+$para_json    = vcpc_field( 'milan_teaser_paragraphs', '' );
+$link_label   = vcpc_field( 'milan_teaser_link_label', '' );
+$link_target  = vcpc_field( 'milan_teaser_link_target', '' );
+$bg_image_id  = vcpc_field( 'milan_teaser_background_image', 0 );
 
 $paragraphs = [];
 if ( $para_json ) {

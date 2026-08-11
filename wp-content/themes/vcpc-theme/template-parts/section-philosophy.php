@@ -1,10 +1,10 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$eyebrow     = vcpc_field( 'philosophy_philosophy_eyebrow', '' );
-$intro       = vcpc_field( 'philosophy_philosophy_intro', '' );
-$suffix      = vcpc_field( 'philosophy_philosophy_intro_suffix', '' );
-$reveal_json = vcpc_field( 'philosophy_philosophy_reveal_lines', '' );
-$paragraph   = vcpc_field( 'philosophy_philosophy_paragraph', '' );
+$eyebrow     = vcpc_field( 'philosophy_eyebrow', '' );
+$intro       = vcpc_field( 'philosophy_intro', '' );
+$suffix      = vcpc_field( 'philosophy_intro_suffix', '' );
+$reveal_json = vcpc_field( 'philosophy_reveal_lines', '' );
+$paragraph   = vcpc_field( 'philosophy_paragraph', '' );
 
 $reveal_lines = [];
 if ( $reveal_json ) {

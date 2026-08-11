@@ -1,13 +1,13 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; 
 
-$eyebrow       = vcpc_field( 'hero_hero_eyebrow', '' );
-$headline      = vcpc_field( 'hero_hero_headline', '' );
-$subheadline   = vcpc_field( 'hero_hero_subheadline', '' );
-$line_1        = vcpc_field( 'hero_hero_line_1', '' );
-$line_2        = vcpc_field( 'hero_hero_line_2', '' );
-$cta_label     = vcpc_field( 'hero_hero_cta_label', '' );
-$cta_target    = vcpc_field( 'hero_hero_cta_target', '' );
-$bg_image_id   = vcpc_field( 'hero_hero_background_image', 0 );
+$eyebrow       = vcpc_field( 'hero_eyebrow', '' );
+$headline      = vcpc_field( 'hero_headline', '' );
+$subheadline   = vcpc_field( 'hero_subheadline', '' );
+$line_1        = vcpc_field( 'hero_line_1', '' );
+$line_2        = vcpc_field( 'hero_line_2', '' );
+$cta_label     = vcpc_field( 'hero_cta_label', '' );
+$cta_target    = vcpc_field( 'hero_cta_target', '' );
+$bg_image_id   = vcpc_field( 'hero_background_image', 0 );
 
 // Show section only if at least one parameter is set
 if ( ! empty( $eyebrow ) || ! empty( $headline ) || ! empty( $subheadline ) || ! empty( $line_1 ) || ! empty( $line_2 ) || ! empty( $cta_label ) || ! empty( $bg_image_id ) ) :
