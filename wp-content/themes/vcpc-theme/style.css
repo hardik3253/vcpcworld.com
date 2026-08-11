@@ -9,3 +9,53 @@ Text Domain: vcpc
 
 /* Intentionally minimal — real styles live in assets/css/main.css and are enqueued via functions.php.
    This file only needs to exist with the header above so WordPress recognizes the theme. */
+
+.coming-soon-section {
+    background-color: #0a0a0a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.coming-soon-logo {
+    margin: 0 0 32px 0 !important;
+    display: flex;
+    justify-content: center;
+}
+
+.coming-soon-logo img {
+    max-width: 260px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.coming-soon-text {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1.6;
+    max-width: 800px;
+    text-align: center;
+    margin: 0;
+}
+
+header, footer {
+	display: none !important;
+}
+
+@media (max-width: 600px) {
+    .coming-soon-logo img {
+        max-width: 180px;
+    }
+    .coming-soon-text {
+        font-size: 14px;
+        letter-spacing: 1px;
+    }
+}
