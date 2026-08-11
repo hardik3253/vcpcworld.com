@@ -10,6 +10,8 @@ class VCPC_Metabox {
 	protected $prefix = '_vcpc_';
 	protected $fields = [];
 
+	protected $allowed_pages = [];
+
 	public function __construct( $id, $title, $fields ) {
 		$this->id     = $id;
 		$this->title  = $title;
@@ -19,7 +21,24 @@ class VCPC_Metabox {
 		add_action( 'save_post', [ $this, 'save_metabox' ] );
 	}
 
-	public function register_metabox() {
+	public function register_metabox( $post_type, $post = null ) {
+		if ( ! $post ) {
+			global $post;
+		}
+		if ( ! $post ) {
+			return;
+		}
+
+		if ( 'layout_settings' !== $this->id ) {
+			// Retrieve allowed pages dynamically on runtime execution
+			$allowed = vcpc_get_metabox_allowed_pages( $this->id );
+
+			// Verify allowed rules match current post ID
+			if ( ! empty( $allowed ) && ! in_array( (int) $post->ID, $allowed, true ) ) {
+				return;
+			}
+		}
+
 		add_meta_box(
 			'vcpc_section_' . $this->id,
 			$this->title,
@@ -31,12 +50,6 @@ class VCPC_Metabox {
 	}
 
 	public function render_metabox( $post ) {
-		$front_id = (int) get_option( 'page_on_front' );
-		// Conditionally display a helper note if this is not the designated front page, but still show the fields
-		if ( $front_id && $post->ID !== $front_id ) {
-			echo '<p style="color:#d63638;font-weight:bold;">' . esc_html__( 'Note: This page is not currently set as your static Front Page under Settings > Reading.', 'vcpc' ) . '</p>';
-		}
-
 		wp_nonce_field( 'vcpc_save_nonce_' . $this->id, 'vcpc_nonce_' . $this->id );
 
 		foreach ( $this->fields as $field_key => $field_config ) {
@@ -90,7 +103,7 @@ class VCPC_Metabox {
 			return;
 		}
 
-		if ( ! current_user_can( 'edit_page', $post_id ) ) {
+		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 

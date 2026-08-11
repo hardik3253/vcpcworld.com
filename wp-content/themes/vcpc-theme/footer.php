@@ -1,4 +1,5 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; ?>
+<?php if ( ! vcpc_should_hide_footer() ) : ?>
 <footer class="vcpc-footer">
 	<div class="vcpc-footer__inner">
 		<!-- Footer Tagline Lines -->
@@ -59,6 +60,7 @@
 		</div>
 	</div>
 </footer>
+<?php endif; ?>
 
 <?php wp_footer(); ?>
 </body>

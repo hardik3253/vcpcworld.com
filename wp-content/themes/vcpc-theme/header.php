@@ -42,6 +42,7 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<?php if ( ! vcpc_should_hide_header() ) : ?>
 <header class="vcpc-nav" id="site-nav">
 	<div class="vcpc-nav__inner">
 		<a href="<?php echo esc_url( home_url( '/' ) ); ?>" class="vcpc-nav__logo">
@@ -81,3 +82,4 @@
 		</button>
 	</div>
 </header>
+<?php endif; ?>

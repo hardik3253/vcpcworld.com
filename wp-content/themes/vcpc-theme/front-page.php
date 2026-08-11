@@ -9,6 +9,16 @@ get_header();
 ?>
 
 <main id="main-content">
+	<?php 
+	// Render default Block Editor content/custom layout blocks from backend first
+	if ( have_posts() ) {
+		while ( have_posts() ) {
+			the_post();
+			the_content();
+		}
+	}
+	?>
+
 	<?php get_template_part( 'template-parts/section', 'hero' ); ?>
 	<?php get_template_part( 'template-parts/section', 'philosophy' ); ?>
 	<?php get_template_part( 'template-parts/section', 'milan-teaser' ); ?>

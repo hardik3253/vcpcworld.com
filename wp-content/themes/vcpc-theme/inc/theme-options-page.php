@@ -38,6 +38,12 @@ function vcpc_register_theme_settings() {
 		'sanitize_callback' => 'sanitize_text_field',
 		'default'           => '© VCPC',
 	] );
+
+	// Metabox Location settings (holds allowed page IDs for each metabox section)
+	register_setting( 'vcpc_theme_settings_group', 'vcpc_metabox_locations', [
+		'sanitize_callback' => 'vcpc_sanitize_metabox_locations',
+		'default'           => '',
+	] );
 }
 add_action( 'admin_init', 'vcpc_register_theme_settings' );
 
@@ -71,6 +77,35 @@ function vcpc_sanitize_social_links( $raw ) {
 	return wp_json_encode( $sanitized );
 }
 
+function vcpc_sanitize_metabox_locations( $raw ) {
+	if ( ! is_array( $raw ) ) {
+		return wp_json_encode( [] );
+	}
+	$sanitized = [];
+	foreach ( $raw as $metabox_id => $page_ids ) {
+		$sanitized[ sanitize_key( $metabox_id ) ] = array_filter( array_map( 'absint', (array) $page_ids ) );
+	}
+	return wp_json_encode( $sanitized );
+}
+
+function vcpc_get_metabox_allowed_pages( $metabox_id ) {
+	$locations_json = get_option( 'vcpc_metabox_locations', '' );
+	if ( '' === $locations_json ) {
+		// Default to static front page if no options have been configured/saved
+		$front_id = (int) get_option( 'page_on_front' );
+		return $front_id ? [ $front_id ] : [];
+	}
+	$locations = json_decode( $locations_json, true );
+	if ( is_array( $locations ) ) {
+		if ( isset( $locations[ $metabox_id ] ) ) {
+			return $locations[ $metabox_id ];
+		}
+		// If page rules exist but this section is unselected, return empty so it remains disabled
+		return [];
+	}
+	return [];
+}
+
 function vcpc_render_theme_settings_page() {
 	?>
 	<div class="wrap">
@@ -86,6 +121,25 @@ function vcpc_render_theme_settings_page() {
 			$footer_tagline = get_option( 'vcpc_footer_tagline', '' );
 			$social_links = get_option( 'vcpc_social_links', '' );
 			$copyright = get_option( 'vcpc_copyright_text', '© VCPC' );
+
+			$locations_json = get_option( 'vcpc_metabox_locations', '' );
+			$locations = $locations_json ? json_decode( $locations_json, true ) : [];
+			if ( ! is_array( $locations ) ) {
+				$locations = [];
+			}
+
+			// Get all pages to select in locations
+			$pages = get_pages();
+			$sections = [
+				'hero'         => 'Section: Hero',
+				'philosophy'   => 'Section: Philosophy',
+				'milan_teaser' => 'Section: From Milan Teaser',
+				'coming_soon'  => 'Section: Coming Soon',
+				'join'         => 'Section: Join the Journey',
+				'story'        => 'Section: Story',
+				'milan_full'   => 'Section: From Milan Full',
+				'contact'      => 'Section: Contact'
+			];
 			?>
 
 			<table class="form-table" role="presentation">
@@ -103,6 +157,31 @@ function vcpc_render_theme_settings_page() {
 								</div>
 								<button type="button" class="button vcpc-single-media-upload-btn" data-target="vcpc_site_logo"><?php _e( 'Select Logo', 'vcpc' ); ?></button>
 								<button type="button" class="button vcpc-single-media-remove-btn" data-remove-target="vcpc_site_logo" style="<?php echo $logo_id ? '' : 'display:none;'; ?>"><?php _e( 'Remove', 'vcpc' ); ?></button>
+							</div>
+						</td>
+					</tr>
+
+					<!-- Metabox Location Rules -->
+					<tr>
+						<th scope="row"><label><strong><?php _e( 'Metabox Locations (ACF Rules Style)', 'vcpc' ); ?></strong></label></th>
+						<td>
+							<p class="description" style="margin-bottom:15px;"><?php _e( 'Choose one or more specific pages where each landing section metabox should display. Keep unselected or choose "No pages selected" to disable.', 'vcpc' ); ?></p>
+							<div style="background:#f6f7f7; border:1px solid #ccd0d4; padding:15px; max-width:800px;">
+								<?php foreach ( $sections as $id => $title ) : 
+									$selected = isset( $locations[ $id ] ) ? (array) $locations[ $id ] : [];
+									?>
+									<div style="margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #dcdcde;">
+										<strong style="display:inline-block; width:220px;"><?php echo esc_html( $title ); ?>:</strong>
+										<select name="vcpc_metabox_locations[<?php echo esc_attr( $id ); ?>][]" multiple style="width: 300px; height: 100px; vertical-align: middle;">
+											<option value="" <?php selected( empty( $selected ) ); ?>><?php _e( '— No pages selected (Disabled) —', 'vcpc' ); ?></option>
+											<?php foreach ( $pages as $p ) : ?>
+												<option value="<?php echo esc_attr( $p->ID ); ?>" <?php selected( in_array( (int) $p->ID, $selected, true ) ); ?>>
+													<?php echo esc_html( $p->post_title ); ?> (ID: <?php echo $p->ID; ?>)
+												</option>
+											<?php endforeach; ?>
+										</select>
+									</div>
+								<?php endforeach; ?>
 							</div>
 						</td>
 					</tr>
