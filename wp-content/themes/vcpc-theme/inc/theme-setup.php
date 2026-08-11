@@ -40,12 +40,13 @@ add_action( 'wp_enqueue_scripts', 'vcpc_enqueue_theme_assets' );
 function vcpc_enqueue_admin_assets( $hook ) {
 	global $post;
 	$front_id = (int) get_option( 'page_on_front' );
-	
-	// Only load on front page editor or our custom options page
-	$is_front_page_edit = ( 'post.php' === $hook && $post && $post->ID === $front_id );
-	$is_options_page    = ( 'toplevel_page_vcpc-theme-settings' === $hook );
+    
+	// Load on post edit screens and our custom options page. The repeater script
+	// is also used from admin meta boxes, so we enqueue it broadly in admin.
+	$is_options_page = ( 'toplevel_page_vcpc-theme-settings' === $hook );
+	$is_post_edit = in_array( $hook, array( 'post.php', 'post-new.php' ), true );
 
-	if ( $is_front_page_edit || $is_options_page ) {
+	if ( $is_post_edit || $is_options_page ) {
 		wp_enqueue_media();
 		wp_enqueue_style( 'jquery-ui-css', 'https://code.jquery.com/ui/1.13.2/themes/smoothness/jquery-ui.css', [], '1.13.2' );
 		wp_enqueue_style( 'vcpc-admin-metaboxes', VCPC_URI . '/assets/css/admin-metaboxes.css', [], VCPC_VERSION );

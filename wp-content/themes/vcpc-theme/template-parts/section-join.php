@@ -70,15 +70,18 @@ if ( ! empty( $heading ) || ! empty( $submit_label ) ) :
 
 						foreach ( $fields as $f ) :
 							if ( empty( $f['field_name'] ) ) continue;
-							$id = esc_attr( $f['field_name'] );
+							$field_name = $f['field_name'];
+							// Keep `name` attribute as admin-configured field identifier (used by REST handler),
+							// but generate a safe `id` for label association.
+							$safe_id = 'vcpc_' . sanitize_key( $field_name );
 							$label = esc_html( $f['field_label'] );
 							$type = esc_attr( $f['field_type'] );
 							$required = ( ! empty( $f['field_required'] ) && strtolower( $f['field_required'] ) === 'yes' ) ? ' required' : '';
 							?>
 							<div class="form-group">
-								<label for="<?php echo $id; ?>"><?php echo $label; ?></label>
+								<label for="<?php echo esc_attr( $safe_id ); ?>"><?php echo $label; ?></label>
 								<?php if ( 'select' === $type ) : ?>
-									<select name="<?php echo $id; ?>" id="<?php echo $id; ?>"<?php echo $required; ?>>
+									<select name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $safe_id ); ?>"<?php echo $required; ?>>
 										<option value=""><?php _e( 'Select option...', 'vcpc' ); ?></option>
 										<?php foreach ( $audience_options as $row ) : 
 											if ( empty( $row['label'] ) ) continue;
@@ -87,9 +90,9 @@ if ( ! empty( $heading ) || ! empty( $submit_label ) ) :
 										<?php endforeach; ?>
 									</select>
 								<?php else : ?>
-									<input type="<?php echo $type; ?>" name="<?php echo $id; ?>" id="<?php echo $id; ?>"<?php echo $required; ?> />
+									<input type="<?php echo $type; ?>" name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $safe_id ); ?>"<?php echo $required; ?> />
 								<?php endif; ?>
-								<span class="error-msg" id="err-<?php echo $id; ?>"></span>
+								<span class="error-msg" id="err-<?php echo esc_attr( $field_name ); ?>"></span>
 							</div>
 						<?php endforeach; ?>
 

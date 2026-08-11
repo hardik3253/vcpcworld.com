@@ -71,7 +71,7 @@ function vcpc_render_repeater( $name, $fields, $existing_rows, $is_option = fals
 				<div class="vcpc-repeater-drag-handle">☰</div>
 				<div class="vcpc-repeater-row-fields">
 					<?php foreach ( $fields as $field_key => $field_config ) : 
-						$input_id = $field_id . '___INDEX___' . $field_key;
+						$input_id = $field_id . '__INDEX__' . $field_key;
 						?>
 						<div class="vcpc-repeater-field-wrapper type-<?php echo esc_attr( $field_config['type'] ); ?>">
 							<label for="<?php echo $input_id; ?>"><?php echo esc_html( $field_config['label'] ); ?></label>

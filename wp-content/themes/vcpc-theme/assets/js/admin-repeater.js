@@ -13,10 +13,7 @@ jQuery(document).ready(function($) {
 			
 			$row.find('.vcpc-repeater-input').each(function() {
 				var $input = $(this);
-				var fieldName = $input.attr('data-anim') || $input.data('field');
-				if (!fieldName) {
-					fieldName = $input.attr('data-field');
-				}
+				var fieldName = $input.data('field') || $input.attr('data-field');
 				var val = $input.val();
 				rowData[fieldName] = val;
 
@@ -52,11 +49,20 @@ jQuery(document).ready(function($) {
 		e.preventDefault();
 		var $repeater = $(this).closest('.vcpc-repeater');
 		var $rowsContainer = $repeater.find('.vcpc-repeater-rows');
-		var templateHtml = $repeater.find('.vcpc-repeater-template').html();
+		var $templateEl = $repeater.find('.vcpc-repeater-template');
+		var templateHtml = $templateEl.html();
+		// Some browsers/contexts may return empty for <template>. Try native DOM fallback.
+		if ( ! templateHtml && $templateEl.length && $templateEl[0].content ) {
+			templateHtml = $templateEl[0].innerHTML || $templateEl[0].content.innerHTML || '';
+		}
 		
 		var nextIndex = $rowsContainer.find('.vcpc-repeater-row').length;
 		var rowHtml = templateHtml.replace(/__INDEX__/g, nextIndex);
 		
+		if ( ! rowHtml ) {
+			if ( window.console ) console.error( 'vcpc repeater: template HTML empty' );
+			return;
+		}
 		var $newRow = $(rowHtml);
 		$rowsContainer.append($newRow);
 		
