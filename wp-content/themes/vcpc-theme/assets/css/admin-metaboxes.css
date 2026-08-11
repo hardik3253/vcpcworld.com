@@ -1,0 +1,99 @@
+/* Admin Custom Metaboxes and Repeaters Styling */
+.vcpc-repeater {
+	background: #fcfcfc;
+	border: 1px solid #ccd0d4;
+	box-shadow: 0 1px 1px rgba(0,0,0,.04);
+	padding: 15px;
+	margin-bottom: 20px;
+}
+
+.vcpc-repeater-rows {
+	margin-bottom: 15px;
+}
+
+.vcpc-repeater-row {
+	display: flex;
+	align-items: flex-start;
+	background: #fff;
+	border: 1px solid #dcdcde;
+	padding: 12px;
+	margin-bottom: 10px;
+	position: relative;
+}
+
+.vcpc-repeater-row-placeholder {
+	background: #f0f0f1;
+	border: 1px dashed #c3c4c7;
+	height: 60px;
+	margin-bottom: 10px;
+}
+
+.vcpc-repeater-drag-handle {
+	cursor: move;
+	padding: 5px 10px;
+	font-size: 20px;
+	color: #a7aaad;
+	user-select: none;
+	align-self: center;
+}
+
+.vcpc-repeater-row-fields {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	padding: 0 15px;
+}
+
+.vcpc-repeater-field-wrapper {
+	display: flex;
+	flex-direction: column;
+}
+
+.vcpc-repeater-field-wrapper label {
+	font-weight: 600;
+	margin-bottom: 4px;
+	font-size: 12px;
+}
+
+.vcpc-repeater-field-wrapper input[type="text"],
+.vcpc-repeater-field-wrapper input[type="url"],
+.vcpc-repeater-field-wrapper input[type="email"],
+.vcpc-repeater-field-wrapper textarea {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.vcpc-repeater-delete-row {
+	align-self: center;
+	background: #f6f7f7;
+	border-color: #dcdcde;
+	color: #d63638;
+}
+
+.vcpc-repeater-delete-row:hover {
+	background: #d63638 !important;
+	border-color: #d63638 !important;
+	color: #fff !important;
+}
+
+/* Media Uploader styles */
+.vcpc-media-preview {
+	margin-bottom: 8px;
+}
+
+.vcpc-media-preview img {
+	max-width: 100px;
+	height: auto;
+	display: block;
+	border: 1px solid #ccd0d4;
+	padding: 4px;
+	background: #fff;
+}
+
+.vcpc-media-file-preview {
+	padding: 8px;
+	background: #f0f0f1;
+	border: 1px solid #ccd0d4;
+	font-size: 11px;
+}

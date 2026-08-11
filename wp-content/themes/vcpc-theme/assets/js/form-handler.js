@@ -1,62 +1,78 @@
-(function () {
+document.addEventListener( 'DOMContentLoaded', function() {
 	'use strict';
 
-	var form = document.getElementById( 'vcpc-join-form' );
-	if ( ! form ) return;
+	var form = document.getElementById('vcpc-journey-form');
+	if (!form) return;
 
-	var statusEl = document.getElementById( 'join-status' );
-	var submitBtn = form.querySelector( '.join__submit' );
+	var submitBtn = document.getElementById('vcpc-submit-btn');
+	var btnText = submitBtn.querySelector('.btn-text');
+	var btnSpinner = submitBtn.querySelector('.btn-spinner');
+	var generalMsg = document.getElementById('form-general-msg');
 
-	function setStatus( message, type ) {
-		statusEl.textContent = message;
-		statusEl.className = 'join__status' + ( type ? ' is-' + type : '' );
-	}
-
-	form.addEventListener( 'submit', function ( e ) {
+	form.addEventListener('submit', function(e) {
 		e.preventDefault();
-		setStatus( '', '' );
 
-		var data = {
-			first_name: form.first_name.value.trim(),
-			last_name:  form.last_name.value.trim(),
-			email:      form.email.value.trim(),
-			mobile:     form.mobile.value.trim(),
-			country:    form.country.value.trim(),
-			audience:   form.audience.value,
-			website:    form.website.value, // honeypot, should stay empty
-		};
+		// Reset states & errors
+		generalMsg.innerHTML = '';
+		generalMsg.className = 'form-status-msg';
+		document.querySelectorAll('.error-msg').forEach(function(el) {
+			el.innerHTML = '';
+		});
 
-		if ( ! data.first_name || ! data.email ) {
-			setStatus( 'Please fill in your name and email.', 'error' );
-			return;
-		}
+		// Build form payload dynamically from form elements
+		var payload = {};
+		var formData = new FormData(form);
+		formData.forEach(function(value, key) {
+			payload[key] = value;
+		});
 
+		// Disable submit & show spinner
 		submitBtn.disabled = true;
-		submitBtn.textContent = 'Submitting…';
+		if (btnSpinner) btnSpinner.style.display = 'inline-block';
+		if (btnText) btnText.style.opacity = '0.5';
 
-		fetch( vcpcForm.endpoint, {
+		fetch(vcpcForm.endpoint, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'X-WP-Nonce': vcpcForm.nonce,
+				'X-WP-Nonce': vcpcForm.nonce
 			},
-			body: JSON.stringify( data ),
-		} )
-			.then( function ( res ) { return res.json(); } )
-			.then( function ( result ) {
-				if ( result.success ) {
-					setStatus( result.message || 'Thank you — you\'re on the list.', 'success' );
-					form.reset();
+			body: JSON.stringify(payload)
+		})
+		.then(function(response) {
+			return response.json().then(function(data) {
+				return { status: response.status, data: data };
+			});
+		})
+		.then(function(res) {
+			if (res.status === 200 && res.data.success) {
+				generalMsg.className = 'form-status-msg success';
+				generalMsg.innerHTML = res.data.message;
+				form.reset();
+			} else {
+				generalMsg.className = 'form-status-msg error';
+				if (res.data.errors) {
+					// Field validation errors
+					Object.keys(res.data.errors).forEach(function(key) {
+						var errEl = document.getElementById('err-' + key);
+						if (errEl) {
+							errEl.innerHTML = res.data.errors[key];
+						}
+					});
+					generalMsg.innerHTML = 'Please fix the errors in the fields above.';
 				} else {
-					setStatus( result.message || 'Something went wrong. Please try again.', 'error' );
+					generalMsg.innerHTML = res.data.message || 'An error occurred. Please try again.';
 				}
-			} )
-			.catch( function () {
-				setStatus( 'Network error. Please try again.', 'error' );
-			} )
-			.finally( function () {
-				submitBtn.disabled = false;
-				submitBtn.textContent = 'Join VCPC';
-			} );
-	} );
-})();
+			}
+		})
+		.catch(function(err) {
+			generalMsg.className = 'form-status-msg error';
+			generalMsg.innerHTML = 'Network error. Please try again later.';
+		})
+		.finally(function() {
+			submitBtn.disabled = false;
+			if (btnSpinner) btnSpinner.style.display = 'none';
+			if (btnText) btnText.style.opacity = '1';
+		});
+	});
+});
