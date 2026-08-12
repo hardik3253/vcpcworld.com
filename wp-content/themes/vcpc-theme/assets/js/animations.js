@@ -49,6 +49,21 @@ document.addEventListener( 'DOMContentLoaded', function() {
 		});
 	}
 
+	// Parallax background on Join section
+	const joinSection = document.querySelector('#join.parallax-bg');
+	if (joinSection) {
+		gsap.to(joinSection, {
+			scrollTrigger: {
+				trigger: joinSection,
+				start: 'top bottom',
+				end: 'bottom top',
+				scrub: true
+			},
+			backgroundPositionY: '30%',
+			ease: 'none'
+		});
+	}
+
 	// General fade up triggers for sections content
 	const fadeUpElements = document.querySelectorAll('.section [data-anim="fade-up"]:not(#hero [data-anim="fade-up"]):not(#philosophy [data-anim="fade-up"])');
 	fadeUpElements.forEach(element => {

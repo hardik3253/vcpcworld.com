@@ -32,12 +32,6 @@ if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $paragraphs ) || ! e
 	<section class="section section--milan-full" id="milan">
 		<div class="section__inner milan-full__inner">
 			<div class="milan-full__grid">
-				<?php if ( $media_html ) : ?>
-					<div class="milan-full__media" data-anim="fade-up">
-						<?php echo $media_html; ?>
-					</div>
-				<?php endif; ?>
-				
 				<div class="milan-full__content text-measure" data-anim="fade-up">
 					<?php if ( ! empty( $eyebrow ) ) : ?>
 						<p class="eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
@@ -56,6 +50,12 @@ if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $paragraphs ) || ! e
 						</div>
 					<?php endif; ?>
 				</div>
+
+				<?php if ( $media_html ) : ?>
+					<div class="milan-full__media" data-anim="fade-up">
+						<?php echo $media_html; ?>
+					</div>
+				<?php endif; ?>
 			</div>
 		</div>
 	</section>

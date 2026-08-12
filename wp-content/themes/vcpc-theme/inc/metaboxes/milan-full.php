@@ -21,7 +21,7 @@ new VCPC_Metabox( 'milan_full', __( 'VCPC Section: From Milan Full', 'vcpc' ), [
 		],
 	],
 	'milan_full_media' => [
-		'label' => __( 'Media (Image or Self-hosted Video)', 'vcpc' ),
+		'label' => __( 'Right Side Image (or Video)', 'vcpc' ),
 		'type'  => 'media',
 	],
 ] );

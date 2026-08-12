@@ -23,8 +23,19 @@ if ( ! is_array( $audience_options ) ) {
 
 // Show section only if data exists
 if ( ! empty( $heading ) || ! empty( $submit_label ) ) :
+	$bg_image_id  = vcpc_field( 'join_background_image', 0 );
+	$bg_style = '';
+	if ( $bg_image_id ) {
+		$bg_url = wp_get_attachment_image_url( $bg_image_id, 'full' );
+		if ( $bg_url ) {
+			$bg_style = ' style="background-image: url(' . esc_url( $bg_url ) . ');"';
+		}
+	}
 	?>
-	<section class="section section--join" id="join">
+	<section class="section section--join parallax-bg" id="join"<?php echo $bg_style; ?>>
+		<?php if ( $bg_image_id ) : ?>
+			<div class="join__overlay"></div>
+		<?php endif; ?>
 		<div class="section__inner join__inner">
 			<div class="join__grid">
 				<div class="join__info" data-anim="fade-up">
@@ -68,33 +79,91 @@ if ( ! empty( $heading ) || ! empty( $submit_label ) ) :
 							];
 						}
 
-						foreach ( $fields as $f ) :
-							if ( empty( $f['field_name'] ) ) continue;
-							$field_name = $f['field_name'];
-							// Keep `name` attribute as admin-configured field identifier (used by REST handler),
-							// but generate a safe `id` for label association.
-							$safe_id = 'vcpc_' . sanitize_key( $field_name );
-							$label = esc_html( $f['field_label'] );
-							$type = esc_attr( $f['field_type'] );
-							$required = ( ! empty( $f['field_required'] ) && strtolower( $f['field_required'] ) === 'yes' ) ? ' required' : '';
+						$indexed_fields = [];
+						foreach ( $fields as $f ) {
+							if ( ! empty( $f['field_name'] ) ) {
+								$indexed_fields[ $f['field_name'] ] = $f;
+							}
+						}
+
+						if ( ! function_exists( 'vcpc_render_form_field' ) ) {
+							function vcpc_render_form_field( $field, $audience_options ) {
+								if ( empty( $field ) ) return;
+								$field_name = $field['field_name'];
+								$safe_id = 'vcpc_' . sanitize_key( $field_name );
+								$label = esc_html( $field['field_label'] );
+								$type = esc_attr( $field['field_type'] );
+								$required = ( ! empty( $field['field_required'] ) && strtolower( $field['field_required'] ) === 'yes' ) ? ' required' : '';
+								?>
+								<div class="form-group">
+									<label for="<?php echo esc_attr( $safe_id ); ?>"><?php echo $label; ?></label>
+									<?php if ( 'select' === $type ) : ?>
+										<select name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $safe_id ); ?>"<?php echo $required; ?>>
+											<option value=""><?php _e( 'Select option...', 'vcpc' ); ?></option>
+											<?php foreach ( $audience_options as $row ) : 
+												if ( empty( $row['label'] ) ) continue;
+												?>
+												<option value="<?php echo esc_attr( $row['label'] ); ?>"><?php echo esc_html( $row['label'] ); ?></option>
+											<?php endforeach; ?>
+										</select>
+									<?php else : ?>
+										<input type="<?php echo $type; ?>" name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $safe_id ); ?>"<?php echo $required; ?> />
+									<?php endif; ?>
+									<span class="error-msg" id="err-<?php echo esc_attr( $field_name ); ?>"></span>
+								</div>
+								<?php
+							}
+						}
+						?>
+
+						<div class="form-row">
+							<?php 
+							if ( isset( $indexed_fields['first_name'] ) ) {
+								vcpc_render_form_field( $indexed_fields['first_name'], $audience_options ); 
+							}
+							if ( isset( $indexed_fields['last_name'] ) ) {
+								vcpc_render_form_field( $indexed_fields['last_name'], $audience_options ); 
+							}
 							?>
-							<div class="form-group">
-								<label for="<?php echo esc_attr( $safe_id ); ?>"><?php echo $label; ?></label>
-								<?php if ( 'select' === $type ) : ?>
-									<select name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $safe_id ); ?>"<?php echo $required; ?>>
-										<option value=""><?php _e( 'Select option...', 'vcpc' ); ?></option>
-										<?php foreach ( $audience_options as $row ) : 
-											if ( empty( $row['label'] ) ) continue;
-											?>
-											<option value="<?php echo esc_attr( $row['label'] ); ?>"><?php echo esc_html( $row['label'] ); ?></option>
-										<?php endforeach; ?>
-									</select>
-								<?php else : ?>
-									<input type="<?php echo $type; ?>" name="<?php echo esc_attr( $field_name ); ?>" id="<?php echo esc_attr( $safe_id ); ?>"<?php echo $required; ?> />
-								<?php endif; ?>
-								<span class="error-msg" id="err-<?php echo esc_attr( $field_name ); ?>"></span>
-							</div>
-						<?php endforeach; ?>
+						</div>
+
+						<div class="form-row">
+							<?php 
+							if ( isset( $indexed_fields['email'] ) ) {
+								vcpc_render_form_field( $indexed_fields['email'], $audience_options ); 
+							}
+							?>
+						</div>
+
+						<div class="form-row">
+							<?php 
+							if ( isset( $indexed_fields['mobile'] ) ) {
+								vcpc_render_form_field( $indexed_fields['mobile'], $audience_options ); 
+							}
+							if ( isset( $indexed_fields['country'] ) ) {
+								vcpc_render_form_field( $indexed_fields['country'], $audience_options ); 
+							}
+							?>
+						</div>
+
+						<div class="form-row">
+							<?php 
+							if ( isset( $indexed_fields['audience'] ) ) {
+								vcpc_render_form_field( $indexed_fields['audience'], $audience_options ); 
+							}
+							?>
+						</div>
+
+						<?php
+						$explicit_keys = [ 'first_name', 'last_name', 'email', 'mobile', 'country', 'audience' ];
+						foreach ( $fields as $f ) {
+							if ( ! empty( $f['field_name'] ) && ! in_array( $f['field_name'], $explicit_keys, true ) ) {
+								echo '<div class="form-row">';
+								vcpc_render_form_field( $f, $audience_options );
+								echo '</div>';
+							}
+						}
+						?>
 
 						<div class="form-submit-row">
 							<button type="submit" id="vcpc-submit-btn" class="btn btn--primary btn--full">

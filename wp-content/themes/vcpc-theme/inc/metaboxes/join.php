@@ -56,4 +56,8 @@ new VCPC_Metabox( 'join', __( 'VCPC Section: Join the Journey', 'vcpc' ), [
 		'type'  => 'text',
 		'desc'  => __( 'Default: "Join VCPC"', 'vcpc' ),
 	],
+	'join_background_image' => [
+		'label' => __( 'Background Image', 'vcpc' ),
+		'type'  => 'media',
+	],
 ] );

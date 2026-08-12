@@ -82,6 +82,14 @@ class VCPC_Metabox {
 					echo '<button type="button" class="button vcpc-single-media-remove-btn" data-remove-target="' . esc_attr( $meta_key ) . '" style="' . ( $val ? '' : 'display:none;' ) . '">' . esc_html__( 'Remove', 'vcpc' ) . '</button>';
 					echo '</div>';
 					break;
+				case 'wysiwyg':
+					wp_editor( $val, $meta_key, [
+						'textarea_name' => $meta_key,
+						'media_buttons' => false,
+						'textarea_rows' => 6,
+						'quicktags'     => true,
+					] );
+					break;
 				case 'repeater':
 					vcpc_render_repeater( $meta_key, $field_config['fields'], $val );
 					break;
@@ -151,6 +159,8 @@ class VCPC_Metabox {
 				$raw = wp_unslash( $_POST[ $meta_key ] );
 				if ( 'media' === $field_config['type'] ) {
 					$clean = absint( $raw );
+				} elseif ( 'wysiwyg' === $field_config['type'] ) {
+					$clean = wp_kses_post( $raw );
 				} elseif ( 'textarea' === $field_config['type'] ) {
 					$clean = sanitize_textarea_field( $raw );
 				} else {

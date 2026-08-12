@@ -29,6 +29,10 @@ new VCPC_Metabox( 'philosophy', __( 'VCPC Section: Philosophy', 'vcpc' ), [
 	],
 	'philosophy_paragraph' => [
 		'label' => __( 'Paragraph', 'vcpc' ),
-		'type'  => 'textarea',
+		'type'  => 'wysiwyg',
+	],
+	'philosophy_right_image' => [
+		'label' => __( 'Right Side Image', 'vcpc' ),
+		'type'  => 'media',
 	],
 ] );

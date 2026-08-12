@@ -17,7 +17,7 @@ if ( ! empty( $heading ) || ! empty( $items ) ) :
 	<section class="section section--coming-soon" id="coming-soon">
 		<div class="section__inner coming-soon__inner">
 			<?php if ( ! empty( $heading ) ) : ?>
-				<h2 class="section__heading align-center" data-anim="fade-up"><?php echo esc_html( $heading ); ?></h2>
+				<h2 class="section__heading align-center" data-anim="fade-up"><?php echo wp_kses_post( html_entity_decode( $heading, ENT_QUOTES, 'UTF-8' ) ); ?></h2>
 			<?php endif; ?>
 			
 			<?php if ( ! empty( $items ) ) : ?>
@@ -31,9 +31,9 @@ if ( ! empty( $heading ) || ! empty( $items ) ) :
 									<?php echo wp_get_attachment_image( $row['icon_image'], 'thumbnail' ); ?>
 								</div>
 							<?php endif; ?>
-							<h3 class="coming-soon__title"><?php echo esc_html( $row['title'] ); ?></h3>
+							<h3 class="coming-soon__title"><?php echo wp_kses_post( html_entity_decode( $row['title'], ENT_QUOTES, 'UTF-8' ) ); ?></h3>
 							<?php if ( ! empty( $row['description'] ) ) : ?>
-								<p class="coming-soon__desc"><?php echo esc_html( $row['description'] ); ?></p>
+								<p class="coming-soon__desc"><?php echo wp_kses_post( html_entity_decode( $row['description'], ENT_QUOTES, 'UTF-8' ) ); ?></p>
 							<?php endif; ?>
 						</div>
 					<?php endforeach; ?>
