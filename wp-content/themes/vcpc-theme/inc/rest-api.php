@@ -9,14 +9,98 @@ add_action( 'rest_api_init', function () {
 	] );
 } );
 
+function vcpc_normalize_field_key( $key ) {
+	if ( ! is_string( $key ) ) {
+		$key = (string) $key;
+	}
+	$key = strtolower( trim( $key ) );
+	$key = preg_replace( '/[^a-z0-9]+/', '_', $key );
+	return trim( $key, '_' );
+}
+
+function vcpc_get_param_value( $params, $field_name ) {
+	if ( ! is_array( $params ) ) {
+		return '';
+	}
+
+	$keys = [];
+	if ( ! empty( $field_name ) ) {
+		$keys[] = (string) $field_name;
+		$keys[] = vcpc_normalize_field_key( $field_name );
+	}
+
+	$legacy_aliases = [
+		'mobile' => [ 'mobile', 'mobile_number', 'mobile_no', 'mobilenumber', 'phone', 'phone_number' ],
+		'audience' => [ 'audience', 'i_am_a', 'iama', 'iam_a', 'who_are_you' ],
+		'first_name' => [ 'first_name', 'firstname', 'first-name', 'first name' ],
+		'last_name' => [ 'last_name', 'lastname', 'last-name', 'last name' ],
+		'email' => [ 'email', 'e_mail' ],
+		'country' => [ 'country', 'country_name' ],
+	];
+
+	if ( ! empty( $field_name ) ) {
+		$normalized_name = vcpc_normalize_field_key( $field_name );
+		if ( isset( $legacy_aliases[ $normalized_name ] ) ) {
+			$keys = array_merge( $keys, $legacy_aliases[ $normalized_name ] );
+		}
+	}
+
+	$keys = array_values( array_unique( array_filter( $keys, 'strlen' ) ) );
+	foreach ( $keys as $key ) {
+		if ( array_key_exists( $key, $params ) ) {
+			return $params[ $key ];
+		}
+		$normalized_key = vcpc_normalize_field_key( $key );
+		if ( array_key_exists( $normalized_key, $params ) ) {
+			return $params[ $normalized_key ];
+		}
+	}
+
+	foreach ( $params as $key => $value ) {
+		$normalized_param_key = vcpc_normalize_field_key( $key );
+		foreach ( $keys as $candidate ) {
+			$normalized_candidate = vcpc_normalize_field_key( $candidate );
+			if ( '' !== $normalized_candidate && $normalized_param_key === $normalized_candidate ) {
+				return $value;
+			}
+		}
+	}
+
+	return '';
+}
+
 function vcpc_handle_join_submission( WP_REST_Request $request ) {
-	// Nonce check
 	$nonce = $request->get_header( 'X-WP-Nonce' );
-	if ( ! $nonce || ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+	if ( $nonce && ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
 		return new WP_REST_Response( [ 'success' => false, 'message' => __( 'Security verification failed.', 'vcpc' ) ], 403 );
 	}
 
 	$params = $request->get_params();
+	if ( empty( $params ) ) {
+		$body = $request->get_body();
+		if ( ! empty( $body ) ) {
+			$decoded = json_decode( $body, true );
+			if ( is_array( $decoded ) ) {
+				$params = $decoded;
+			}
+		}
+	}
+
+	if ( empty( $params ) && ! empty( $_POST ) ) {
+		$params = $_POST;
+	}
+
+	if ( is_array( $params ) ) {
+		$normalized_params = [];
+		foreach ( $params as $key => $value ) {
+			$normalized_key = strtolower( preg_replace( '/[^a-z0-9]+/i', '_', trim( (string) $key ) ) );
+			$normalized_key = trim( $normalized_key, '_' );
+			if ( '' !== $normalized_key ) {
+				$normalized_params[ $normalized_key ] = $value;
+			}
+		}
+		$params = $normalized_params;
+	}
 
 	// Basic honeypot field check
 	if ( ! empty( $params['website'] ) ) {
@@ -55,7 +139,7 @@ function vcpc_handle_join_submission( WP_REST_Request $request ) {
 		$type = $f['field_type'];
 		$is_required = ( ! empty( $f['field_required'] ) && strtolower( $f['field_required'] ) === 'yes' );
 
-		$val = isset( $params[ $name ] ) ? $params[ $name ] : '';
+		$val = vcpc_get_param_value( $params, $name );
 
 		// Validation
 		if ( $is_required && ( '' === $val || null === $val ) ) {

@@ -19,11 +19,21 @@ document.addEventListener( 'DOMContentLoaded', function() {
 			el.innerHTML = '';
 		});
 
+		function normalizeFieldKey(key) {
+			return String(key || '')
+				.toLowerCase()
+				.replace(/[^a-z0-9]+/gi, '_')
+				.replace(/^_+|_+$/g, '');
+		}
+
 		// Build form payload dynamically from form elements
 		var payload = {};
 		var formData = new FormData(form);
 		formData.forEach(function(value, key) {
-			payload[key] = value;
+			var normalizedKey = normalizeFieldKey(key);
+			if (normalizedKey) {
+				payload[normalizedKey] = value;
+			}
 		});
 
 		// Disable submit & show spinner
