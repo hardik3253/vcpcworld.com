@@ -114,7 +114,11 @@ function vcpc_handle_join_submission( WP_REST_Request $request ) {
 	}
 
 	if ( ! empty( $errors ) ) {
-		return new WP_REST_Response( [ 'success' => false, 'errors' => $errors ], 400 );
+		return new WP_REST_Response( [ 
+			'success' => false, 
+			'errors'  => $errors,
+			'message' => __( 'Please fix the errors in the fields below.', 'vcpc' )
+		], 400 );
 	}
 
 	// Create Lead CPT
@@ -140,19 +144,33 @@ function vcpc_handle_join_submission( WP_REST_Request $request ) {
 	}
 
 	// Send admin notification email
-	$admin_email = get_option( 'admin_email' );
-	$subject     = __( 'New VCPC Journey Lead Registration', 'vcpc' );
-	
-	$message     = "A new registration request has been submitted with the following fields:\n\n";
+	$to            = get_option( 'vcpc_email_to', get_option( 'admin_email' ) );
+	$from          = get_option( 'vcpc_email_from', 'VCPC <' . get_option( 'admin_email' ) . '>' );
+	$subject       = get_option( 'vcpc_email_subject', __( 'Thank you for your interest in VCPC!', 'vcpc' ) );
+	$body_template = get_option( 'vcpc_email_body', "A new registration request has been submitted with the following fields:\n\n[fields_content]" );
+
+	// Build fields dump
+	$fields_content = '';
 	foreach ( $fields as $f ) {
 		if ( empty( $f['field_name'] ) ) continue;
 		$name = $f['field_name'];
 		$label = $f['field_label'];
 		$val = isset( $sanitized_data[ $name ] ) ? $sanitized_data[ $name ] : '';
-		$message .= sprintf( "%s: %s\n", $label, $val );
+		$fields_content .= sprintf( "%s: %s\n", $label, $val );
 	}
 
-	wp_mail( $admin_email, $subject, $message );
+	// Replace tags
+	$message = str_replace( '[fields_content]', $fields_content, $body_template );
+	foreach ( $sanitized_data as $key => $val ) {
+		$message = str_replace( '[' . $key . ']', $val, $message );
+	}
+
+	$headers = [];
+	if ( ! empty( $from ) ) {
+		$headers[] = 'From: ' . $from;
+	}
+
+	wp_mail( $to, $subject, $message, $headers );
 
 	// Hook for ESP/CRM integrations
 	do_action( 'vcpc_lead_saved', $lead_id, $sanitized_data );

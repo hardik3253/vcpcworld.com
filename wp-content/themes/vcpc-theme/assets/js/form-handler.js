@@ -59,7 +59,7 @@ document.addEventListener( 'DOMContentLoaded', function() {
 							errEl.innerHTML = res.data.errors[key];
 						}
 					});
-					generalMsg.innerHTML = 'Please fix the errors in the fields above.';
+					generalMsg.innerHTML = res.data.message || 'Please fix the errors in the fields above.';
 				} else {
 					generalMsg.innerHTML = res.data.message || 'An error occurred. Please try again.';
 				}

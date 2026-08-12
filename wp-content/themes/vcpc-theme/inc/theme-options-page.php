@@ -44,6 +44,27 @@ function vcpc_register_theme_settings() {
 		'sanitize_callback' => 'vcpc_sanitize_metabox_locations',
 		'default'           => '',
 	] );
+
+	// Email Notification Settings
+	register_setting( 'vcpc_theme_settings_group', 'vcpc_email_to', [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] );
+
+	register_setting( 'vcpc_theme_settings_group', 'vcpc_email_from', [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] );
+
+	register_setting( 'vcpc_theme_settings_group', 'vcpc_email_subject', [
+		'sanitize_callback' => 'sanitize_text_field',
+		'default'           => '',
+	] );
+
+	register_setting( 'vcpc_theme_settings_group', 'vcpc_email_body', [
+		'sanitize_callback' => 'sanitize_textarea_field',
+		'default'           => '',
+	] );
 }
 add_action( 'admin_init', 'vcpc_register_theme_settings' );
 
@@ -218,6 +239,38 @@ function vcpc_render_theme_settings_page() {
 						<td>
 							<input type="text" id="vcpc_copyright_text" name="vcpc_copyright_text" value="<?php echo esc_attr( $copyright ); ?>" class="regular-text" />
 							<p class="description"><?php _e( 'The current year will be appended automatically in code.', 'vcpc' ); ?></p>
+						</td>
+					</tr>
+
+					<!-- Email Notification Settings -->
+					<tr>
+						<th scope="row" colspan="2"><h2 style="margin-top:30px; border-bottom:1px solid #ccd0d4; padding-bottom:10px;"><?php _e( 'Lead Notification Email Settings', 'vcpc' ); ?></h2></th>
+					</tr>
+					<tr>
+						<th scope="row"><label for="vcpc_email_to"><?php _e( 'To', 'vcpc' ); ?></label></th>
+						<td>
+							<input type="text" id="vcpc_email_to" name="vcpc_email_to" value="<?php echo esc_attr( get_option( 'vcpc_email_to', get_option( 'admin_email' ) ) ); ?>" class="large-text" />
+							<p class="description"><?php _e( 'Recipient email address (e.g. inquiry@vipulchudasama.com).', 'vcpc' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="vcpc_email_from"><?php _e( 'From', 'vcpc' ); ?></label></th>
+						<td>
+							<input type="text" id="vcpc_email_from" name="vcpc_email_from" value="<?php echo esc_attr( get_option( 'vcpc_email_from', 'VCPC <' . get_option( 'admin_email' ) . '>' ) ); ?>" class="large-text" />
+							<p class="description"><?php _e( 'From header (e.g. VCPC <info@vcpcworld.com>).', 'vcpc' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="vcpc_email_subject"><?php _e( 'Subject', 'vcpc' ); ?></label></th>
+						<td>
+							<input type="text" id="vcpc_email_subject" name="vcpc_email_subject" value="<?php echo esc_attr( get_option( 'vcpc_email_subject', 'Thank you for your interest in VCPC!' ) ); ?>" class="large-text" />
+						</td>
+					</tr>
+					<tr>
+						<th scope="row"><label for="vcpc_email_body"><?php _e( 'Message Body', 'vcpc' ); ?></label></th>
+						<td>
+							<textarea id="vcpc_email_body" name="vcpc_email_body" rows="12" class="large-text" style="font-family:monospace;"><?php echo esc_textarea( get_option( 'vcpc_email_body', "A new registration request has been submitted with the following fields:\n\n[fields_content]" ) ); ?></textarea>
+							<p class="description"><?php _e( 'Customize the body content. Use tags in square brackets matching your form field names (e.g. [first_name], [last_name], [email], [mobile], [country], [audience]) or use [fields_content] to output all fields.', 'vcpc' ); ?></p>
 						</td>
 					</tr>
 				</tbody>
