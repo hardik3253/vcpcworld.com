@@ -79,12 +79,10 @@ if ( ! empty( $heading ) || ! empty( $submit_label ) ) :
 							];
 						}
 
-						$indexed_fields = [];
-						foreach ( $fields as $f ) {
-							if ( ! empty( $f['field_name'] ) ) {
-								$indexed_fields[ $f['field_name'] ] = $f;
-							}
-						}
+						// Filter out empty rows
+						$fields = array_values( array_filter( $fields, function( $f ) {
+							return ! empty( $f['field_name'] );
+						} ) );
 
 						if ( ! function_exists( 'vcpc_render_form_field' ) ) {
 							function vcpc_render_form_field( $field, $audience_options ) {
@@ -114,52 +112,52 @@ if ( ! empty( $heading ) || ! empty( $submit_label ) ) :
 								<?php
 							}
 						}
-						?>
 
-						<div class="form-row">
-							<?php 
-							if ( isset( $indexed_fields['first_name'] ) ) {
-								vcpc_render_form_field( $indexed_fields['first_name'], $audience_options ); 
-							}
-							if ( isset( $indexed_fields['last_name'] ) ) {
-								vcpc_render_form_field( $indexed_fields['last_name'], $audience_options ); 
-							}
-							?>
-						</div>
+						$total_fields = count( $fields );
 
-						<div class="form-row">
-							<?php 
-							if ( isset( $indexed_fields['email'] ) ) {
-								vcpc_render_form_field( $indexed_fields['email'], $audience_options ); 
-							}
-							?>
-						</div>
+						// Row 1: Field 0 & Field 1 (First Name / Last Name)
+						if ( $total_fields > 0 ) : ?>
+							<div class="form-row">
+								<?php 
+								vcpc_render_form_field( $fields[0], $audience_options );
+								if ( $total_fields > 1 ) {
+									vcpc_render_form_field( $fields[1], $audience_options );
+								}
+								?>
+							</div>
+						<?php endif;
 
-						<div class="form-row">
-							<?php 
-							if ( isset( $indexed_fields['mobile'] ) ) {
-								vcpc_render_form_field( $indexed_fields['mobile'], $audience_options ); 
-							}
-							if ( isset( $indexed_fields['country'] ) ) {
-								vcpc_render_form_field( $indexed_fields['country'], $audience_options ); 
-							}
-							?>
-						</div>
+						// Row 2: Field 2 (Email)
+						if ( $total_fields > 2 ) : ?>
+							<div class="form-row">
+								<?php vcpc_render_form_field( $fields[2], $audience_options ); ?>
+							</div>
+						<?php endif;
 
-						<div class="form-row">
-							<?php 
-							if ( isset( $indexed_fields['audience'] ) ) {
-								vcpc_render_form_field( $indexed_fields['audience'], $audience_options ); 
-							}
-							?>
-						</div>
+						// Row 3: Field 3 & Field 4 (Mobile Number / Country)
+						if ( $total_fields > 3 ) : ?>
+							<div class="form-row">
+								<?php 
+								vcpc_render_form_field( $fields[3], $audience_options );
+								if ( $total_fields > 4 ) {
+									vcpc_render_form_field( $fields[4], $audience_options );
+								}
+								?>
+							</div>
+						<?php endif;
 
-						<?php
-						$explicit_keys = [ 'first_name', 'last_name', 'email', 'mobile', 'country', 'audience' ];
-						foreach ( $fields as $f ) {
-							if ( ! empty( $f['field_name'] ) && ! in_array( $f['field_name'], $explicit_keys, true ) ) {
+						// Row 4: Field 5 (I Am A)
+						if ( $total_fields > 5 ) : ?>
+							<div class="form-row">
+								<?php vcpc_render_form_field( $fields[5], $audience_options ); ?>
+							</div>
+						<?php endif;
+
+						// Render any additional fields beyond the core 6 fields
+						if ( $total_fields > 6 ) {
+							for ( $i = 6; $i < $total_fields; $i++ ) {
 								echo '<div class="form-row">';
-								vcpc_render_form_field( $f, $audience_options );
+								vcpc_render_form_field( $fields[$i], $audience_options );
 								echo '</div>';
 							}
 						}
