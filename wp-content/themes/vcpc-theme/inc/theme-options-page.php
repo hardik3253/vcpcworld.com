@@ -52,7 +52,7 @@ function vcpc_register_theme_settings() {
 	] );
 
 	register_setting( 'vcpc_theme_settings_group', 'vcpc_email_from', [
-		'sanitize_callback' => 'sanitize_text_field',
+		'sanitize_callback' => 'vcpc_sanitize_email_from',
 		'default'           => '',
 	] );
 
@@ -107,6 +107,17 @@ function vcpc_sanitize_metabox_locations( $raw ) {
 		$sanitized[ sanitize_key( $metabox_id ) ] = array_filter( array_map( 'absint', (array) $page_ids ) );
 	}
 	return wp_json_encode( $sanitized );
+}
+
+function vcpc_sanitize_email_from( $raw ) {
+	if ( empty( $raw ) ) {
+		return '';
+	}
+	$raw = wp_unslash( $raw );
+	// Temporarily replace brackets so sanitize_text_field doesn't treat it as HTML
+	$escaped = str_replace( [ '<', '>' ], [ '[lt]', '[gt]' ], $raw );
+	$sanitized = sanitize_text_field( $escaped );
+	return str_replace( [ '[lt]', '[gt]' ], [ '<', '>' ], $sanitized );
 }
 
 function vcpc_get_metabox_allowed_pages( $metabox_id ) {

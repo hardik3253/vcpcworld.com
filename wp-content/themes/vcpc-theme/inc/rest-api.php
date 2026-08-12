@@ -117,7 +117,7 @@ function vcpc_handle_join_submission( WP_REST_Request $request ) {
 		return new WP_REST_Response( [ 
 			'success' => false, 
 			'errors'  => $errors,
-			'message' => __( 'Please fix the errors in the fields below.', 'vcpc' )
+			'message' => __( 'Please fix the errors below: ', 'vcpc' ) . implode( ' ', $errors )
 		], 400 );
 	}
 
