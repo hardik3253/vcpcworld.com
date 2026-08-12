@@ -5,7 +5,7 @@
 
 	var nav = document.getElementById( 'site-nav' );
 	var toggle = document.getElementById( 'nav-toggle' );
-	var links = document.querySelector( '.vcpc-nav__links' );
+	var links = document.querySelector( '.vcpc-nav__menu-container' );
 
 	function onScroll() {
 		if ( window.scrollY > 40 ) {
