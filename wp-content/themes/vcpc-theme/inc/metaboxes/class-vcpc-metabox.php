@@ -149,7 +149,7 @@ class VCPC_Metabox {
 					$sanitized_rows[] = $sanitized_row;
 				}
 
-				update_post_meta( $post_id, $meta_key, wp_json_encode( $sanitized_rows ) );
+				update_post_meta( $post_id, $meta_key, wp_slash( wp_json_encode( $sanitized_rows, JSON_UNESCAPED_UNICODE ) ) );
 
 			} else {
 				if ( ! isset( $_POST[ $meta_key ] ) ) {

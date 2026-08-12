@@ -2,19 +2,26 @@
 
 $eyebrow    = vcpc_field( 'milan_full_eyebrow', '' );
 $heading    = vcpc_field( 'milan_full_heading', '' );
-$para_json  = vcpc_field( 'milan_full_paragraphs', '' );
-$media_id   = vcpc_field( 'milan_full_media', 0 );
+$milan_full_content = vcpc_field( 'milan_full_content', '' );
+$media_id           = vcpc_field( 'milan_full_media', 0 );
 
-$paragraphs = [];
-if ( $para_json ) {
-	$paragraphs = json_decode( $para_json, true );
-}
-if ( ! is_array( $paragraphs ) ) {
-	$paragraphs = [];
+// Backward compatibility: migrate old repeater data to content string if new content is empty
+if ( empty( $milan_full_content ) ) {
+	$para_json = vcpc_field( 'milan_full_paragraphs', '' );
+	if ( $para_json ) {
+		$paragraphs = json_decode( $para_json, true );
+		if ( is_array( $paragraphs ) ) {
+			foreach ( $paragraphs as $row ) {
+				if ( ! empty( $row['paragraph'] ) ) {
+					$milan_full_content .= '<p>' . esc_html( $row['paragraph'] ) . '</p>';
+				}
+			}
+		}
+	}
 }
 
 // Show section only if data exists
-if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $paragraphs ) || ! empty( $media_id ) ) :
+if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $milan_full_content ) || ! empty( $media_id ) ) :
 
 	$is_video = false;
 	$media_html = '';
@@ -40,13 +47,9 @@ if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $paragraphs ) || ! e
 						<h2 class="section__heading"><?php echo esc_html( $heading ); ?></h2>
 					<?php endif; ?>
 					
-					<?php if ( ! empty( $paragraphs ) ) : ?>
+					<?php if ( ! empty( $milan_full_content ) ) : ?>
 						<div class="milan-full__paragraphs">
-							<?php foreach ( $paragraphs as $row ) : 
-								if ( empty( $row['paragraph'] ) ) continue;
-								?>
-								<p><?php echo esc_html( $row['paragraph'] ); ?></p>
-							<?php endforeach; ?>
+							<?php echo wp_kses_post( wpautop( $milan_full_content ) ); ?>
 						</div>
 					<?php endif; ?>
 				</div>

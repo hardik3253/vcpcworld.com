@@ -2,19 +2,26 @@
 
 $eyebrow    = vcpc_field( 'story_eyebrow', '' );
 $heading    = vcpc_field( 'story_heading', '' );
-$para_json  = vcpc_field( 'story_paragraphs', '' );
-$image_id   = vcpc_field( 'story_image', 0 );
+$story_content = vcpc_field( 'story_content', '' );
+$image_id      = vcpc_field( 'story_image', 0 );
 
-$paragraphs = [];
-if ( $para_json ) {
-	$paragraphs = json_decode( $para_json, true );
-}
-if ( ! is_array( $paragraphs ) ) {
-	$paragraphs = [];
+// Backward compatibility: migrate old repeater data to content string if new content is empty
+if ( empty( $story_content ) ) {
+	$para_json = vcpc_field( 'story_paragraphs', '' );
+	if ( $para_json ) {
+		$paragraphs = json_decode( $para_json, true );
+		if ( is_array( $paragraphs ) ) {
+			foreach ( $paragraphs as $row ) {
+				if ( ! empty( $row['paragraph'] ) ) {
+					$story_content .= '<p>' . esc_html( $row['paragraph'] ) . '</p>';
+				}
+			}
+		}
+	}
 }
 
 // Show section only if data exists
-if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $paragraphs ) || ! empty( $image_id ) ) :
+if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $story_content ) || ! empty( $image_id ) ) :
 	?>
 	<section class="section section--story" id="story">
 		<div class="section__inner story__inner">
@@ -27,13 +34,9 @@ if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $paragraphs ) || ! e
 						<h2 class="section__heading"><?php echo esc_html( $heading ); ?></h2>
 					<?php endif; ?>
 					
-					<?php if ( ! empty( $paragraphs ) ) : ?>
+					<?php if ( ! empty( $story_content ) ) : ?>
 						<div class="story__paragraphs">
-							<?php foreach ( $paragraphs as $row ) : 
-								if ( empty( $row['paragraph'] ) ) continue;
-								?>
-								<p><?php echo esc_html( $row['paragraph'] ); ?></p>
-							<?php endforeach; ?>
+							<?php echo wp_kses_post( wpautop( $story_content ) ); ?>
 						</div>
 					<?php endif; ?>
 				</div>

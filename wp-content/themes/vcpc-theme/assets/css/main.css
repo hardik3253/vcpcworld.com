@@ -837,6 +837,11 @@ p {
 	.philosophy__media {
 		order: -1;
 	}
+
+	.vcpc-form .form-row {
+		flex-direction: column;
+		gap: 0;
+	}
 }
 
 @media (max-width: 767px) {
@@ -875,10 +880,7 @@ p {
 		text-align: center;
 	}
 
-	.vcpc-form .form-row {
-		flex-direction: column;
-		gap: 0;
-	}
+
 
 	.coming-soon-logo img {
 		max-width: 180px;

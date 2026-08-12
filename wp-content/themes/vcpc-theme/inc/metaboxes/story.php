@@ -11,15 +11,9 @@ new VCPC_Metabox( 'story', __( 'VCPC Section: Story', 'vcpc' ), [
 		'type'  => 'text',
 		'desc'  => __( 'Default: "Protection First™"', 'vcpc' ),
 	],
-	'story_paragraphs' => [
-		'label' => __( 'Paragraphs (Repeater)', 'vcpc' ),
-		'type'  => 'repeater',
-		'fields' => [
-			'paragraph' => [
-				'label' => __( 'Paragraph Text', 'vcpc' ),
-				'type'  => 'textarea',
-			],
-		],
+	'story_content' => [
+		'label' => __( 'Story Content', 'vcpc' ),
+		'type'  => 'wysiwyg',
 	],
 	'story_image' => [
 		'label' => __( 'Image (Optional)', 'vcpc' ),

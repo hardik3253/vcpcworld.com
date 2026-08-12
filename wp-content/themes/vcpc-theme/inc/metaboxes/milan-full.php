@@ -10,15 +10,9 @@ new VCPC_Metabox( 'milan_full', __( 'VCPC Section: From Milan Full', 'vcpc' ), [
 		'label' => __( 'Heading', 'vcpc' ),
 		'type'  => 'text',
 	],
-	'milan_full_paragraphs' => [
-		'label' => __( 'Paragraphs (Repeater)', 'vcpc' ),
-		'type'  => 'repeater',
-		'fields' => [
-			'paragraph' => [
-				'label' => __( 'Paragraph Text', 'vcpc' ),
-				'type'  => 'textarea',
-			],
-		],
+	'milan_full_content' => [
+		'label' => __( 'Milan Full Content', 'vcpc' ),
+		'type'  => 'wysiwyg',
 	],
 	'milan_full_media' => [
 		'label' => __( 'Right Side Image (or Video)', 'vcpc' ),

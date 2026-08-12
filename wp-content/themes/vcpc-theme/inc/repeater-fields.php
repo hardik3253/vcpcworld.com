@@ -20,7 +20,7 @@ function vcpc_render_repeater( $name, $fields, $existing_rows, $is_option = fals
 
 	$field_id = esc_attr( $name );
 	$input_name = $is_option ? esc_attr( $name ) : 'vcpc_fields[' . esc_attr( $name ) . ']';
-	$json_value = ! empty( $rows ) ? wp_json_encode( $rows ) : '';
+	$json_value = ! empty( $rows ) ? wp_json_encode( $rows, JSON_UNESCAPED_UNICODE ) : '';
 	?>
 	<div class="vcpc-repeater" data-field-name="<?php echo $field_id; ?>">
 		<input type="hidden" class="vcpc-repeater-value" id="<?php echo $field_id; ?>" name="<?php echo $input_name; ?>" value="<?php echo esc_attr( $json_value ); ?>" />
