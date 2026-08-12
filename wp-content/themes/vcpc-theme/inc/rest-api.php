@@ -16,10 +16,7 @@ function vcpc_handle_join_submission( WP_REST_Request $request ) {
 		return new WP_REST_Response( [ 'success' => false, 'message' => __( 'Security verification failed.', 'vcpc' ) ], 403 );
 	}
 
-	$params = $request->get_json_params();
-	if ( ! $params ) {
-		$params = $_POST;
-	}
+	$params = $request->get_params();
 
 	// Basic honeypot field check
 	if ( ! empty( $params['website'] ) ) {
