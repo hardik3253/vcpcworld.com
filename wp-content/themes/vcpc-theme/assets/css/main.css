@@ -519,12 +519,14 @@ p {
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
-/* Milan Full */
-.section--milan-full {
+/* Milan Full & Exhibitions */
+.section--milan-full,
+.section--exhibition {
 	background-color: var(--color-black);
 }
 
-.milan-full__grid {
+.milan-full__grid,
+.exhibition__grid {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: var(--space-xl);
@@ -532,14 +534,17 @@ p {
 }
 
 .milan-full__media img,
-.milan-full__video {
+.milan-full__video,
+.exhibition__media img,
+.exhibition__video {
 	width: 100%;
 	height: auto;
 	display: block;
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
-.milan-full__paragraphs p {
+.milan-full__paragraphs p,
+.exhibition__paragraphs p {
 	font-size: 1rem;
 	margin-bottom: var(--space-md);
 }
@@ -826,6 +831,7 @@ p {
 
 	.story__grid,
 	.milan-full__grid,
+	.exhibition__grid,
 	.join__grid,
 	.philosophy__grid.has-image {
 		grid-template-columns: 1fr;
@@ -834,6 +840,7 @@ p {
 
 	.story__media,
 	.milan-full__media,
+	.exhibition__media,
 	.philosophy__media {
 		order: -1;
 	}

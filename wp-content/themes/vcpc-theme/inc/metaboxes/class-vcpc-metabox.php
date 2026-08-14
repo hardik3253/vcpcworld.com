@@ -138,12 +138,10 @@ class VCPC_Metabox {
 						$sub_val = isset( $row[ $sub_key ] ) ? $row[ $sub_key ] : '';
 						if ( 'media' === $sub_config['type'] ) {
 							$sanitized_row[ $sub_key ] = absint( $sub_val );
-						} elseif ( 'textarea' === $sub_config['type'] ) {
-							$sanitized_row[ $sub_key ] = sanitize_textarea_field( $sub_val );
 						} elseif ( 'email' === $sub_config['type'] ) {
 							$sanitized_row[ $sub_key ] = sanitize_email( $sub_val );
 						} else {
-							$sanitized_row[ $sub_key ] = sanitize_text_field( $sub_val );
+							$sanitized_row[ $sub_key ] = wp_kses_post( $sub_val );
 						}
 					}
 					$sanitized_rows[] = $sanitized_row;
@@ -159,12 +157,8 @@ class VCPC_Metabox {
 				$raw = wp_unslash( $_POST[ $meta_key ] );
 				if ( 'media' === $field_config['type'] ) {
 					$clean = absint( $raw );
-				} elseif ( 'wysiwyg' === $field_config['type'] ) {
-					$clean = wp_kses_post( $raw );
-				} elseif ( 'textarea' === $field_config['type'] ) {
-					$clean = sanitize_textarea_field( $raw );
 				} else {
-					$clean = sanitize_text_field( $raw );
+					$clean = wp_kses_post( $raw );
 				}
 
 				update_post_meta( $post_id, $meta_key, $clean );

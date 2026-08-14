@@ -14,23 +14,23 @@ if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $content ) || ! empt
 		if ( strpos( $mime, 'video' ) !== false ) {
 			$is_video = true;
 			$video_url = wp_get_attachment_url( $media_id );
-			$media_html = '<video class="milan-full__video" src="' . esc_url( $video_url ) . '" controls loop muted playsinline></video>';
+			$media_html = '<video class="exhibition__video" src="' . esc_url( $video_url ) . '" controls loop muted playsinline></video>';
 		} else {
-			$media_html = wp_get_attachment_image( $media_id, 'large', false, [ 'class' => 'milan-full__img' ] );
+			$media_html = wp_get_attachment_image( $media_id, 'large', false, [ 'class' => 'exhibition__img' ] );
 		}
 	}
 	?>
-	<section class="section section--milan-full" id="angelo-seminara">
-		<div class="section__inner milan-full__inner">
-			<div class="milan-full__grid">
+	<section class="section section--exhibition" id="angelo-seminara">
+		<div class="section__inner exhibition__inner">
+			<div class="exhibition__grid">
 				
 				<?php if ( $media_html ) : ?>
-					<div class="milan-full__media" data-anim="fade-up">
+					<div class="exhibition__media" data-anim="fade-up">
 						<?php echo $media_html; ?>
 					</div>
 				<?php endif; ?>
 
-				<div class="milan-full__content text-measure" data-anim="fade-up">
+				<div class="exhibition__content text-measure" data-anim="fade-up">
 					<?php if ( ! empty( $eyebrow ) ) : ?>
 						<p class="eyebrow"><?php echo esc_html( $eyebrow ); ?></p>
 					<?php endif; ?>
@@ -39,7 +39,7 @@ if ( ! empty( $eyebrow ) || ! empty( $heading ) || ! empty( $content ) || ! empt
 					<?php endif; ?>
 					
 					<?php if ( ! empty( $content ) ) : ?>
-						<div class="milan-full__paragraphs">
+						<div class="exhibition__paragraphs">
 							<?php echo wp_kses_post( wpautop( $content ) ); ?>
 						</div>
 					<?php endif; ?>
