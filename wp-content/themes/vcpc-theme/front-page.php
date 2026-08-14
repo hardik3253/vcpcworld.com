@@ -26,6 +26,9 @@ get_header();
 	<?php get_template_part( 'template-parts/section', 'join' ); ?>
 	<?php get_template_part( 'template-parts/section', 'story' ); ?>
 	<?php get_template_part( 'template-parts/section', 'milan-full' ); ?>
+	<?php get_template_part( 'template-parts/section', 'dali-fashion' ); ?>
+	<?php get_template_part( 'template-parts/section', 'salvador-dali' ); ?>
+	<?php get_template_part( 'template-parts/section', 'angelo-seminara' ); ?>
 	<?php get_template_part( 'template-parts/section', 'contact' ); ?>
 </main>
 

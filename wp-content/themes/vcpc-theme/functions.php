@@ -27,6 +27,9 @@ require_once VCPC_DIR . '/inc/metaboxes/coming-soon.php';
 require_once VCPC_DIR . '/inc/metaboxes/join.php';
 require_once VCPC_DIR . '/inc/metaboxes/story.php';
 require_once VCPC_DIR . '/inc/metaboxes/milan-full.php';
+require_once VCPC_DIR . '/inc/metaboxes/dali-fashion.php';
+require_once VCPC_DIR . '/inc/metaboxes/salvador-dali.php';
+require_once VCPC_DIR . '/inc/metaboxes/angelo-seminara.php';
 require_once VCPC_DIR . '/inc/metaboxes/contact.php';
 require_once VCPC_DIR . '/inc/metaboxes/layout-settings.php';
 

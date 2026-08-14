@@ -163,14 +163,17 @@ function vcpc_render_theme_settings_page() {
 			// Get all pages to select in locations
 			$pages = get_pages();
 			$sections = [
-				'hero'         => 'Section: Hero',
-				'philosophy'   => 'Section: Philosophy',
-				'milan_teaser' => 'Section: From Milan Teaser',
-				'coming_soon'  => 'Section: Coming Soon',
-				'join'         => 'Section: Join the Journey',
-				'story'        => 'Section: Story',
-				'milan_full'   => 'Section: From Milan Full',
-				'contact'      => 'Section: Contact'
+				'hero'             => 'Section: Hero',
+				'philosophy'       => 'Section: Philosophy',
+				'milan_teaser'     => 'Section: From Milan Teaser',
+				'coming_soon'      => 'Section: Coming Soon',
+				'join'             => 'Section: Join the Journey',
+				'story'            => 'Section: Story',
+				'milan_full'       => 'Section: From Milan Full',
+				'dali_fashion'     => 'Section: Dali & Fashion',
+				'salvador_dali'    => 'Section: Salvador Dali',
+				'angelo_seminara'  => 'Section: Angelo Seminara',
+				'contact'          => 'Section: Contact'
 			];
 			?>
 
