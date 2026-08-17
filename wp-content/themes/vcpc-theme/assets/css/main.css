@@ -282,8 +282,31 @@ p {
 	width: 90%;
 }
 
+.hero__inner.has-image {
+	display: grid;
+	grid-template-columns: 1.1fr 0.9fr;
+	gap: var(--space-xl);
+	align-items: center;
+}
+
 .hero__content {
 	max-width: 800px;
+}
+
+.hero__inner.has-image .hero__content {
+	max-width: none;
+}
+
+.hero__media {
+	position: relative;
+	z-index: 2;
+}
+
+.hero__img {
+	width: 100%;
+	height: auto;
+	display: block;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
 }
 
 .hero__heading {

@@ -37,6 +37,10 @@ new VCPC_Metabox( 'hero', __( 'VCPC Section: Hero', 'vcpc' ), [
 		'type'  => 'text',
 		'desc'  => __( 'Default: "#join"', 'vcpc' ),
 	],
+	'hero_right_image' => [
+		'label' => __( 'Right Side Image', 'vcpc' ),
+		'type'  => 'media',
+	],
 	'hero_background_image' => [
 		'label' => __( 'Background Image', 'vcpc' ),
 		'type'  => 'media',

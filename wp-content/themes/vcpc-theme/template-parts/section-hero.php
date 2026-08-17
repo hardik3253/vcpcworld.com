@@ -8,9 +8,10 @@ $line_2        = vcpc_field( 'hero_line_2', '' );
 $cta_label     = vcpc_field( 'hero_cta_label', '' );
 $cta_target    = vcpc_field( 'hero_cta_target', '' );
 $bg_image_id   = vcpc_field( 'hero_background_image', 0 );
+$right_image_id = vcpc_field( 'hero_right_image', 0 );
 
 // Show section only if at least one parameter is set
-if ( ! empty( $eyebrow ) || ! empty( $headline ) || ! empty( $subheadline ) || ! empty( $line_1 ) || ! empty( $line_2 ) || ! empty( $cta_label ) || ! empty( $bg_image_id ) ) :
+if ( ! empty( $eyebrow ) || ! empty( $headline ) || ! empty( $subheadline ) || ! empty( $line_1 ) || ! empty( $line_2 ) || ! empty( $cta_label ) || ! empty( $bg_image_id ) || ! empty( $right_image_id ) ) :
 
 	$bg_style = '';
 	if ( $bg_image_id ) {
@@ -19,10 +20,12 @@ if ( ! empty( $eyebrow ) || ! empty( $headline ) || ! empty( $subheadline ) || !
 			$bg_style = ' style="background-image: url(' . esc_url( $bg_url ) . ');"';
 		}
 	}
+
+	$hero_inner_class = $right_image_id ? 'section__inner hero__inner has-image' : 'section__inner hero__inner';
 	?>
 	<section class="section section--hero" id="hero"<?php echo $bg_style; ?>>
 		<div class="hero__overlay"></div>
-		<div class="section__inner hero__inner">
+		<div class="<?php echo esc_attr( $hero_inner_class ); ?>">
 			<div class="hero__content">
 				<?php if ( ! empty( $eyebrow ) ) : ?>
 					<p class="eyebrow" data-anim="fade-up"><?php echo esc_html( $eyebrow ); ?></p>
@@ -56,6 +59,12 @@ if ( ! empty( $eyebrow ) || ! empty( $headline ) || ! empty( $subheadline ) || !
 					</div>
 				<?php endif; ?>
 			</div>
+
+			<?php if ( $right_image_id ) : ?>
+				<div class="hero__media" data-anim="fade-up">
+					<?php echo wp_get_attachment_image( $right_image_id, 'large', false, [ 'class' => 'hero__img' ] ); ?>
+				</div>
+			<?php endif; ?>
 		</div>
 		<div class="hero__scroll-cue" aria-hidden="true">↓</div>
 	</section>
