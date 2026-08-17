@@ -24,6 +24,34 @@ function vcpc_register_lead_cpt() {
 		'menu_icon'    => 'dashicons-email-alt',
 		'supports'     => [ 'title' ],
 		'capability_type' => 'post',
+		'capabilities' => [
+			'create_posts' => false,
+		],
+		'map_meta_cap' => true,
+	] );
+
+	register_post_type( 'vcpc_diagnosis', [
+		'label'        => __( 'Hair Diagnoses', 'vcpc' ),
+		'labels'       => [
+			'name'               => __( 'Hair Diagnoses', 'vcpc' ),
+			'singular_name'      => __( 'Diagnosis', 'vcpc' ),
+			'menu_name'          => __( 'Hair Diagnoses', 'vcpc' ),
+			'all_items'          => __( 'All Diagnoses', 'vcpc' ),
+			'view_item'          => __( 'View Diagnosis', 'vcpc' ),
+			'search_items'       => __( 'Search Diagnoses', 'vcpc' ),
+			'not_found'          => __( 'No diagnoses found', 'vcpc' ),
+			'not_found_in_trash' => __( 'No diagnoses found in Trash', 'vcpc' ),
+		],
+		'public'       => false,
+		'show_ui'      => true,
+		'show_in_menu' => true,
+		'menu_icon'    => 'dashicons-clipboard',
+		'supports'     => [ 'title' ],
+		'capability_type' => 'post',
+		'capabilities' => [
+			'create_posts' => false,
+		],
+		'map_meta_cap' => true,
 	] );
 
 	register_post_meta( 'vcpc_lead', 'first_name', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
@@ -32,8 +60,120 @@ function vcpc_register_lead_cpt() {
 	register_post_meta( 'vcpc_lead', 'mobile',     [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
 	register_post_meta( 'vcpc_lead', 'country',    [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
 	register_post_meta( 'vcpc_lead', 'audience',   [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+
+	register_post_meta( 'vcpc_diagnosis', 'name', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'contact_number', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'email', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'instagram', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'city', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'hair_condition', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'hair_stressors', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'hair_needs', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'professional_treatment', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
+	register_post_meta( 'vcpc_diagnosis', 'homecare', [ 'show_in_rest' => true, 'single' => true, 'type' => 'string' ] );
 }
 add_action( 'init', 'vcpc_register_lead_cpt' );
+
+/** Display diagnosis details metabox */
+function vcpc_add_diagnosis_details_metabox() {
+	add_meta_box(
+		'vcpc_diagnosis_details',
+		__( 'Hair Diagnosis Details', 'vcpc' ),
+		'vcpc_render_diagnosis_details_metabox',
+		'vcpc_diagnosis',
+		'normal',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'vcpc_add_diagnosis_details_metabox' );
+
+function vcpc_render_diagnosis_details_metabox( $post ) {
+	$fields = [
+		'name' => [ 'label' => __( 'Full Name', 'vcpc' ), 'key' => 'name' ],
+		'contact_number' => [ 'label' => __( 'Contact Number', 'vcpc' ), 'key' => 'contact_number' ],
+		'email' => [ 'label' => __( 'Email Address', 'vcpc' ), 'key' => 'email' ],
+		'instagram' => [ 'label' => __( 'Instagram Handle', 'vcpc' ), 'key' => 'instagram' ],
+		'city' => [ 'label' => __( 'City', 'vcpc' ), 'key' => 'city' ],
+		'hair_condition' => [ 'label' => __( 'Hair Condition', 'vcpc' ), 'key' => 'hair_condition' ],
+		'hair_stressors' => [ 'label' => __( 'Hair Stressors', 'vcpc' ), 'key' => 'hair_stressors' ],
+		'hair_needs' => [ 'label' => __( 'Hair Needs', 'vcpc' ), 'key' => 'hair_needs' ],
+		'professional_treatment' => [ 'label' => __( 'Professional Treatment', 'vcpc' ), 'key' => 'professional_treatment' ],
+		'homecare' => [ 'label' => __( 'Homecare', 'vcpc' ), 'key' => 'homecare' ],
+	];
+	
+	?>
+	<div style="background: #f8f6f2; padding: 20px; border-radius: 4px;">
+		<?php foreach ( $fields as $field_key => $field ) : 
+			$value = get_post_meta( $post->ID, $field['key'], true );
+			if ( empty( $value ) ) {
+				continue;
+			}
+		?>
+			<div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(23,23,26,0.1);">
+				<strong style="display: block; margin-bottom: 4px; color: #7b6852;"><?php echo esc_html( $field['label'] ); ?></strong>
+				<p style="margin: 0; color: #17171a;"><?php echo nl2br( esc_html( $value ) ); ?></p>
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<?php
+}
+
+/** Show key fields as admin columns for quick scanning/export */
+function vcpc_diagnosis_columns( $columns ) {
+	$columns['email'] = __( 'Email', 'vcpc' );
+	$columns['contact_number'] = __( 'Contact', 'vcpc' );
+	$columns['city'] = __( 'City', 'vcpc' );
+	$columns['hair_condition'] = __( 'Hair Condition', 'vcpc' );
+	return $columns;
+}
+add_filter( 'manage_vcpc_diagnosis_posts_columns', 'vcpc_diagnosis_columns' );
+
+function vcpc_diagnosis_column_content( $column, $post_id ) {
+	if ( in_array( $column, [ 'email', 'contact_number', 'city', 'hair_condition' ], true ) ) {
+		echo esc_html( get_post_meta( $post_id, $column, true ) );
+	}
+}
+add_action( 'manage_vcpc_diagnosis_posts_custom_column', 'vcpc_diagnosis_column_content', 10, 2 );
+
+/** Display signup details metabox */
+function vcpc_add_signup_details_metabox() {
+	add_meta_box(
+		'vcpc_signup_details',
+		__( 'Journey Signup Details', 'vcpc' ),
+		'vcpc_render_signup_details_metabox',
+		'vcpc_lead',
+		'normal',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'vcpc_add_signup_details_metabox' );
+
+function vcpc_render_signup_details_metabox( $post ) {
+	$fields = [
+		'first_name' => [ 'label' => __( 'First Name', 'vcpc' ), 'key' => 'first_name' ],
+		'last_name' => [ 'label' => __( 'Last Name', 'vcpc' ), 'key' => 'last_name' ],
+		'email' => [ 'label' => __( 'Email', 'vcpc' ), 'key' => 'email' ],
+		'mobile' => [ 'label' => __( 'Mobile', 'vcpc' ), 'key' => 'mobile' ],
+		'country' => [ 'label' => __( 'Country', 'vcpc' ), 'key' => 'country' ],
+		'audience' => [ 'label' => __( 'I am a', 'vcpc' ), 'key' => 'audience' ],
+	];
+	
+	?>
+	<div style="background: #f8f6f2; padding: 20px; border-radius: 4px;">
+		<?php foreach ( $fields as $field_key => $field ) : 
+			$value = get_post_meta( $post->ID, $field['key'], true );
+			if ( empty( $value ) ) {
+				continue;
+			}
+		?>
+			<div style="margin-bottom: 16px; padding-bottom: 16px; border-bottom: 1px solid rgba(23,23,26,0.1);">
+				<strong style="display: block; margin-bottom: 4px; color: #7b6852;"><?php echo esc_html( $field['label'] ); ?></strong>
+				<p style="margin: 0; color: #17171a;"><?php echo nl2br( esc_html( $value ) ); ?></p>
+			</div>
+		<?php endforeach; ?>
+	</div>
+	<?php
+}
 
 /** Show key fields as admin columns for quick scanning/export */
 function vcpc_lead_columns( $columns ) {

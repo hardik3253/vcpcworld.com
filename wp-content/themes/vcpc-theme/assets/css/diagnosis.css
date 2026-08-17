@@ -1,0 +1,329 @@
+.vcpc-diagnosis {
+	padding: 80px 0 70px;
+	background: #f8f6f2;
+	color: #17171a;
+}
+
+.vcpc-diagnosis__shell {
+	width: min(1100px, 90%);
+	margin: 0 auto;
+	background: rgba(255,255,255,0.7);
+	border: 1px solid rgba(23,23,26,0.08);
+	border-radius: 8px;
+	padding: clamp(24px, 4vw, 48px);
+}
+
+.vcpc-diagnosis__header {
+	text-align: center;
+	margin-bottom: 32px;
+}
+
+.vcpc-diagnosis__logo {
+	font-family: var(--font-serif, Georgia, serif);
+	font-size: 1.9rem;
+	letter-spacing: 0.1em;
+	font-weight: 600;
+	margin-bottom: 12px;
+}
+
+.vcpc-diagnosis__eyebrow {
+	font-size: 0.72rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: #b4976f;
+	margin-bottom: 12px;
+}
+
+.vcpc-diagnosis__header h2 {
+	font-size: clamp(2.2rem, 4vw, 3.5rem);
+	margin-bottom: 10px;
+}
+
+.vcpc-diagnosis__subhead {
+	font-size: 1.15rem;
+	color: rgba(23,23,26,0.82);
+	margin-bottom: 8px;
+}
+
+.vcpc-diagnosis__meta {
+	font-size: 0.92rem;
+	color: rgba(23,23,26,0.7);
+}
+
+.vcpc-diagnosis__time {
+	display: inline-flex;
+	margin-top: 18px;
+	padding: 8px 14px;
+	border-radius: 999px;
+	background: rgba(180,151,111,0.08);
+	color: #846c4d;
+	font-size: 0.8rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.vcpc-diagnosis__progress {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 10px;
+	margin-bottom: 28px;
+}
+
+.vcpc-diagnosis__progress-step {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 10px;
+	border-radius: 10px;
+	border: 1px solid rgba(23,23,26,0.08);
+	background: rgba(255,255,255,0.5);
+	color: rgba(23,23,26,0.55);
+	transition: all 0.25s ease;
+}
+
+.vcpc-diagnosis__progress-step span {
+	font-size: 0.72rem;
+	letter-spacing: 0.15em;
+	font-weight: 600;
+}
+
+.vcpc-diagnosis__progress-step small {
+	font-size: 0.68rem;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+}
+
+.vcpc-diagnosis__progress-step.is-active {
+	background: #17171a;
+	color: #f8f6f2;
+	border-color: #17171a;
+}
+
+.vcpc-diagnosis__progress-step.is-complete {
+	background: rgba(180,151,111,0.10);
+	border-color: rgba(180,151,111,0.28);
+	color: #17171a;
+}
+
+.vcpc-diagnosis__form {
+	position: relative;
+}
+
+.vcpc-diagnosis__step {
+	display: none;
+	padding-top: 12px;
+}
+
+.vcpc-diagnosis__step.is-active {
+	display: block;
+}
+
+.vcpc-diagnosis__content-top {
+	margin-bottom: 26px;
+}
+
+.vcpc-diagnosis__content-top h3 {
+	font-size: clamp(1.8rem, 3vw, 2.5rem);
+	margin-bottom: 8px;
+}
+
+.vcpc-diagnosis__content-top p {
+	font-size: 1rem;
+	color: rgba(23,23,26,0.72);
+}
+
+.vcpc-diagnosis__grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px;
+}
+
+.vcpc-diagnosis__field {
+	display: flex;
+	flex-direction: column;
+}
+
+.vcpc-diagnosis__field label {
+	display: block;
+	font-size: 0.76rem;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: #7b6852;
+	margin-bottom: 8px;
+}
+
+.vcpc-diagnosis__field label span,
+.vcpc-diagnosis__error {
+	color: #b94a48;
+}
+
+.vcpc-diagnosis__field input {
+	width: 100%;
+	padding: 0.95rem 1rem;
+	border: 1px solid rgba(23,23,26,0.12);
+	background: rgba(255,255,255,0.8);
+	border-radius: 4px;
+	font-size: 1rem;
+	color: #17171a;
+	transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.vcpc-diagnosis__field input:focus {
+	outline: none;
+	border-color: #b4976f;
+	box-shadow: 0 0 0 3px rgba(180,151,111,0.12);
+}
+
+.vcpc-diagnosis__error {
+	display: block;
+	min-height: 18px;
+	font-size: 0.76rem;
+	margin-top: 6px;
+}
+
+.vcpc-diagnosis__option-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 14px;
+}
+
+.vcpc-diagnosis__option {
+	appearance: none;
+	border: 1px solid rgba(23,23,26,0.12);
+	background: rgba(255,255,255,0.7);
+	border-radius: 4px;
+	padding: 18px 16px;
+	font-size: 1rem;
+	color: #17171a;
+	text-align: left;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.vcpc-diagnosis__option:hover,
+.vcpc-diagnosis__option:focus-visible {
+	border-color: rgba(180,151,111,0.9);
+	transform: translateY(-1px);
+}
+
+.vcpc-diagnosis__option.is-selected {
+	background: #17171a;
+	border-color: #17171a;
+	color: #f8f6f2;
+}
+
+.vcpc-diagnosis__error--selection {
+	margin-top: 12px;
+}
+
+.vcpc-diagnosis__actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 26px;
+	gap: 12px;
+}
+
+.vcpc-diagnosis__actions.two-actions {
+	justify-content: space-between;
+}
+
+.vcpc-diagnosis__actions .btn {
+	min-width: 180px;
+}
+
+.vcpc-diagnosis__protocol-wrap {
+	display: grid;
+	gap: 18px;
+}
+
+.vcpc-diagnosis__protocol-card {
+	background: rgba(255,255,255,0.75);
+	border: 1px solid rgba(23,23,26,0.08);
+	border-radius: 4px;
+	padding: 22px 20px;
+}
+
+.vcpc-diagnosis__protocol-card h4 {
+	font-family: var(--font-sans, sans-serif);
+	font-size: 0.78rem;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	margin-bottom: 12px;
+	color: #7b6852;
+}
+
+.vcpc-diagnosis__protocol-copy {
+	font-size: 1rem;
+	line-height: 1.7;
+	color: rgba(23,23,26,0.8);
+}
+
+.vcpc-diagnosis__summary-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+}
+
+.vcpc-diagnosis__summary-tag {
+	display: inline-flex;
+	align-items: center;
+	padding: 7px 10px;
+	border-radius: 999px;
+	background: rgba(180,151,111,0.12);
+	color: #17171a;
+	font-size: 0.8rem;
+	font-weight: 500;
+}
+
+.vcpc-diagnosis__success {
+	display: none;
+	padding: 36px 20px 10px;
+	text-align: center;
+}
+
+.vcpc-diagnosis__success.is-visible {
+	display: block;
+}
+
+.vcpc-diagnosis__success h3 {
+	font-size: clamp(2rem, 3vw, 2.8rem);
+	margin-bottom: 12px;
+}
+
+.vcpc-diagnosis__success p {
+	font-size: 1.05rem;
+	color: rgba(23,23,26,0.8);
+	margin-bottom: 8px;
+}
+
+@media (max-width: 767px) {
+	.vcpc-diagnosis {
+		padding: 40px 0 32px;
+	}
+
+	.vcpc-diagnosis__shell {
+		width: 92%;
+		padding: 18px 16px 24px;
+	}
+
+	.vcpc-diagnosis__progress {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.vcpc-diagnosis__grid,
+	.vcpc-diagnosis__option-grid {
+		grid-template-columns: 1fr;
+	}
+
+	.vcpc-diagnosis__actions,
+	.vcpc-diagnosis__actions.two-actions {
+		flex-direction: column;
+		justify-content: stretch;
+	}
+
+	.vcpc-diagnosis__actions .btn {
+		width: 100%;
+		min-width: 0;
+	}
+}

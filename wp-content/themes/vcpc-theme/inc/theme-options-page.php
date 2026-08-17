@@ -155,6 +155,7 @@ function vcpc_render_theme_settings_page() {
 				'milan_teaser'     => 'Section: From Milan Teaser',
 				'coming_soon'      => 'Section: Coming Soon',
 				'join'             => 'Section: Join the Journey',
+				'diagnosis'        => 'Section: Hair Protection Diagnosis',
 				'story'            => 'Section: Story',
 				'milan_full'       => 'Section: From Milan Full',
 				'dali_fashion'     => 'Section: Dali & Fashion',

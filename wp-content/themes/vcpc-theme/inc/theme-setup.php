@@ -21,6 +21,7 @@ add_action( 'after_setup_theme', 'vcpc_theme_setup_features' );
 function vcpc_enqueue_theme_assets() {
 	// Custom premium typography link or inline CSS can go in header, styling is in main.css.
 	wp_enqueue_style( 'vcpc-main', VCPC_URI . '/assets/css/main.css', [], VCPC_VERSION );
+	wp_enqueue_style( 'vcpc-diagnosis', VCPC_URI . '/assets/css/diagnosis.css', [ 'vcpc-main' ], VCPC_VERSION );
 
 	// GSAP & ScrollTrigger from CDN
 	wp_enqueue_script( 'gsap', 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js', [], '3.12.5', true );
@@ -32,6 +33,12 @@ function vcpc_enqueue_theme_assets() {
 	wp_enqueue_script( 'vcpc-form', VCPC_URI . '/assets/js/form-handler.js', [], VCPC_VERSION, true );
 	wp_localize_script( 'vcpc-form', 'vcpcForm', [
 		'endpoint' => esc_url_raw( rest_url( 'vcpc/v1/join' ) ),
+		'nonce'    => wp_create_nonce( 'wp_rest' ),
+	] );
+
+	wp_enqueue_script( 'vcpc-diagnosis-form', VCPC_URI . '/assets/js/diagnosis-form.js', [], VCPC_VERSION, true );
+	wp_localize_script( 'vcpc-diagnosis-form', 'vcpcDiagnosis', [
+		'endpoint' => esc_url_raw( rest_url( 'vcpc/v1/diagnosis' ) ),
 		'nonce'    => wp_create_nonce( 'wp_rest' ),
 	] );
 }

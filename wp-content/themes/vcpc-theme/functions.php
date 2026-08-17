@@ -122,6 +122,13 @@ function vcpc_is_header_join_button_enabled() {
 	return (bool) get_option( 'vcpc_header_join_button', 1 );
 }
 
+function vcpc_hair_protection_diagnosis_shortcode() {
+	ob_start();
+	get_template_part( 'template-parts/section', 'diagnosis' );
+	return ob_get_clean();
+}
+add_shortcode( 'vcpc_hair_protection_diagnosis', 'vcpc_hair_protection_diagnosis_shortcode' );
+
 /**
  * Determine page-specific layout overrides directly.
  */

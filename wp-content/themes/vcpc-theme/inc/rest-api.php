@@ -7,6 +7,12 @@ add_action( 'rest_api_init', function () {
 		'callback'            => 'vcpc_handle_join_submission',
 		'permission_callback' => '__return_true',
 	] );
+
+	register_rest_route( 'vcpc/v1', '/diagnosis', [
+		'methods'             => 'POST',
+		'callback'            => 'vcpc_handle_diagnosis_submission',
+		'permission_callback' => '__return_true',
+	] );
 } );
 
 function vcpc_normalize_field_key( $key ) {
@@ -258,3 +264,130 @@ function vcpc_handle_join_submission( WP_REST_Request $request ) {
 
 	return new WP_REST_Response( [ 'success' => true, 'message' => __( 'Thank you — you have been added to the journey.', 'vcpc' ) ], 200 );
 }
+
+function vcpc_handle_diagnosis_submission( WP_REST_Request $request ) {
+	$nonce = $request->get_header( 'X-WP-Nonce' );
+	if ( $nonce && ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+		return new WP_REST_Response( [ 'success' => false, 'message' => __( 'Security verification failed.', 'vcpc' ) ], 403 );
+	}
+
+	$params = $request->get_params();
+	if ( empty( $params ) ) {
+		$body = $request->get_body();
+		if ( ! empty( $body ) ) {
+			$decoded = json_decode( $body, true );
+			if ( is_array( $decoded ) ) {
+				$params = $decoded;
+			}
+		}
+	}
+
+	if ( ! is_array( $params ) ) {
+		return new WP_REST_Response( [ 'success' => false, 'message' => __( 'Diagnosis payload is invalid.', 'vcpc' ) ], 400 );
+	}
+
+	if ( ! empty( $params['website'] ) ) {
+		return new WP_REST_Response( [ 'success' => true, 'message' => __( 'Submission ignored.', 'vcpc' ) ], 200 );
+	}
+
+	$client = isset( $params['client'] ) && is_array( $params['client'] ) ? $params['client'] : [];
+	$name = isset( $client['name'] ) ? sanitize_text_field( wp_unslash( $client['name'] ) ) : '';
+	$contact_number = isset( $client['contactNumber'] ) ? sanitize_text_field( wp_unslash( $client['contactNumber'] ) ) : '';
+	$email = isset( $client['email'] ) ? sanitize_email( wp_unslash( $client['email'] ) ) : '';
+	$instagram = isset( $client['instagram'] ) ? sanitize_text_field( wp_unslash( $client['instagram'] ) ) : '';
+	$city = isset( $client['city'] ) ? sanitize_text_field( wp_unslash( $client['city'] ) ) : '';
+
+	$hair_condition = vcpc_normalize_diagnosis_array( isset( $params['hairCondition'] ) ? $params['hairCondition'] : [] );
+	$hair_stressors = vcpc_normalize_diagnosis_array( isset( $params['hairStressors'] ) ? $params['hairStressors'] : [] );
+	$hair_needs = vcpc_normalize_diagnosis_array( isset( $params['hairNeeds'] ) ? $params['hairNeeds'] : [] );
+
+	$professional_treatment = isset( $params['protocol']['professionalTreatment'] ) ? sanitize_text_field( wp_unslash( $params['protocol']['professionalTreatment'] ) ) : '';
+	$homecare = isset( $params['protocol']['homecare'] ) ? sanitize_text_field( wp_unslash( $params['protocol']['homecare'] ) ) : '';
+
+	$errors = [];
+	if ( '' === $name ) {
+		$errors['name'] = __( 'Name is required.', 'vcpc' );
+	}
+	if ( '' === $contact_number ) {
+		$errors['contactNumber'] = __( 'Contact number is required.', 'vcpc' );
+	}
+	if ( '' === $email || ! is_email( $email ) ) {
+		$errors['email'] = __( 'A valid email address is required.', 'vcpc' );
+	}
+	if ( '' === $city ) {
+		$errors['city'] = __( 'City is required.', 'vcpc' );
+	}
+	if ( empty( $hair_condition ) ) {
+		$errors['hairCondition'] = __( 'Please choose at least one hair condition.', 'vcpc' );
+	}
+	if ( empty( $hair_stressors ) ) {
+		$errors['hairStressors'] = __( 'Please choose at least one hair stressor.', 'vcpc' );
+	}
+	if ( empty( $hair_needs ) ) {
+		$errors['hairNeeds'] = __( 'Please choose at least one hair need.', 'vcpc' );
+	}
+
+	if ( ! empty( $errors ) ) {
+		return new WP_REST_Response( [ 'success' => false, 'message' => __( 'Please complete the required diagnosis fields.', 'vcpc' ), 'errors' => $errors ], 400 );
+	}
+
+	$diagnosis_title = sprintf( '%s - %s', $name, $email );
+	$diagnosis_id = wp_insert_post( [
+		'post_type'   => 'vcpc_diagnosis',
+		'post_title'  => sanitize_text_field( $diagnosis_title ),
+		'post_status' => 'publish',
+	] );
+
+	if ( is_wp_error( $diagnosis_id ) || ! $diagnosis_id ) {
+		return new WP_REST_Response( [ 'success' => false, 'message' => __( 'Could not save diagnosis. Please try again later.', 'vcpc' ) ], 500 );
+	}
+
+	$meta = [
+		'name' => $name,
+		'contact_number' => $contact_number,
+		'email' => $email,
+		'instagram' => $instagram,
+		'city' => $city,
+		'hair_condition' => implode( ', ', $hair_condition ),
+		'hair_stressors' => implode( ', ', $hair_stressors ),
+		'hair_needs' => implode( ', ', $hair_needs ),
+		'professional_treatment' => $professional_treatment,
+		'homecare' => $homecare,
+	];
+
+	foreach ( $meta as $key => $value ) {
+		update_post_meta( $diagnosis_id, $key, $value );
+	}
+
+	$to = get_option( 'vcpc_email_to', get_option( 'admin_email' ) );
+	$from = get_option( 'vcpc_email_from', 'VCPC <' . get_option( 'admin_email' ) . '>' );
+	$subject = __( 'New Hair Protection Diagnosis', 'vcpc' );
+	$message = "Name: {$name}\nContact Number: {$contact_number}\nEmail: {$email}\nInstagram: {$instagram}\nCity: {$city}\n\nHair Condition: " . implode( ', ', $hair_condition ) . "\nHair Stressors: " . implode( ', ', $hair_stressors ) . "\nHair Needs: " . implode( ', ', $hair_needs ) . "\n\nProfessional Treatment: {$professional_treatment}\nHomecare: {$homecare}";
+	$headers = [ 'From: ' . $from ];
+	wp_mail( $to, $subject, $message, $headers );
+
+	do_action( 'vcpc_diagnosis_saved', $diagnosis_id, $meta );
+
+	return new WP_REST_Response( [ 'success' => true, 'message' => __( 'Your diagnosis has been received. We will be in touch soon.', 'vcpc' ) ], 200 );
+}
+
+function vcpc_normalize_diagnosis_array( $value ) {
+	if ( is_array( $value ) ) {
+		$items = $value;
+	} elseif ( is_string( $value ) ) {
+		$items = array_map( 'trim', explode( ',', $value ) );
+	} else {
+		$items = [];
+	}
+
+	$filtered = [];
+	foreach ( $items as $item ) {
+		$clean = sanitize_text_field( wp_unslash( $item ) );
+		if ( '' !== $clean ) {
+			$filtered[] = $clean;
+		}
+	}
+
+	return array_values( array_unique( $filtered ) );
+}
+
