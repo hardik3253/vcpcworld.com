@@ -879,7 +879,8 @@ p {
 	.milan-full__grid,
 	.exhibition__grid,
 	.join__grid,
-	.philosophy__grid.has-image {
+	.philosophy__grid.has-image,
+	.hero__inner.has-image {
 		grid-template-columns: 1fr;
 		gap: var(--space-lg);
 	}
@@ -887,7 +888,8 @@ p {
 	.story__media,
 	.milan-full__media,
 	.exhibition__media,
-	.philosophy__media {
+	.philosophy__media,
+	.hero__media {
 		order: -1;
 	}
 
