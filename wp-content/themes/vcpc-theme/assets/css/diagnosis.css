@@ -1,16 +1,16 @@
 .vcpc-diagnosis {
 	padding: 80px 0 70px;
-	background: #f8f6f2;
-	color: #17171a;
+	background: var(--color-cream);
+	color: var(--color-black);
 }
 
 .vcpc-diagnosis__shell {
 	width: min(1100px, 90%);
 	margin: 0 auto;
-	background: rgba(255,255,255,0.7);
-	border: 1px solid rgba(23,23,26,0.08);
-	border-radius: 8px;
-	padding: clamp(24px, 4vw, 48px);
+	background: transparent;
+	border: none;
+	border-radius: 0;
+	padding: 0;
 }
 
 .vcpc-diagnosis__header {
@@ -19,20 +19,21 @@
 }
 
 .vcpc-diagnosis__logo {
-	font-family: var(--font-serif, Georgia, serif);
+	font-family: var(--font-serif);
 	font-size: 1.9rem;
 	letter-spacing: 0.1em;
 	font-weight: 600;
 	margin-bottom: 12px;
+	color: var(--color-black);
 }
 
 .vcpc-diagnosis__eyebrow {
 	font-size: 0.72rem;
 	letter-spacing: 0.2em;
 	text-transform: uppercase;
-	color: #b4976f;
+	color: var(--color-gold-hover);
 	margin-bottom: 12px;
-}
+	font-family: var(--font-sans);
 
 .vcpc-diagnosis__header h2 {
 	font-size: clamp(2.2rem, 4vw, 3.5rem);
@@ -41,13 +42,12 @@
 
 .vcpc-diagnosis__subhead {
 	font-size: 1.15rem;
-	color: rgba(23,23,26,0.82);
-	margin-bottom: 8px;
+	color: var(--color-black);\n\tmargin-bottom: 8px;
 }
 
 .vcpc-diagnosis__meta {
 	font-size: 0.92rem;
-	color: rgba(23,23,26,0.7);
+	color: rgba(15,15,17,0.7);
 }
 
 .vcpc-diagnosis__time {
@@ -55,7 +55,7 @@
 	margin-top: 18px;
 	padding: 8px 14px;
 	border-radius: 999px;
-	background: rgba(180,151,111,0.08);
+	background: rgba(197, 168, 128, 0.08);
 	color: #846c4d;
 	font-size: 0.8rem;
 	letter-spacing: 0.08em;
@@ -76,9 +76,9 @@
 	gap: 8px;
 	padding: 12px 10px;
 	border-radius: 10px;
-	border: 1px solid rgba(23,23,26,0.08);
+	border: 1px solid rgba(15,15,17,0.08);
 	background: rgba(255,255,255,0.5);
-	color: rgba(23,23,26,0.55);
+	color: rgba(15,15,17,0.55);
 	transition: all 0.25s ease;
 }
 
@@ -95,15 +95,15 @@
 }
 
 .vcpc-diagnosis__progress-step.is-active {
-	background: #17171a;
-	color: #f8f6f2;
-	border-color: #17171a;
+	background: var(--color-black);
+	color: var(--color-cream);
+	border-color: var(--color-black);
 }
 
 .vcpc-diagnosis__progress-step.is-complete {
-	background: rgba(180,151,111,0.10);
-	border-color: rgba(180,151,111,0.28);
-	color: #17171a;
+	background: rgba(197, 168, 128, 0.10);
+	border-color: rgba(197, 168, 128, 0.28);
+	color: var(--color-black);
 }
 
 .vcpc-diagnosis__form {
@@ -149,30 +149,30 @@
 	font-size: 0.76rem;
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
-	color: #7b6852;
+	color: var(--color-gold-hover);
 	margin-bottom: 8px;
 }
 
 .vcpc-diagnosis__field label span,
 .vcpc-diagnosis__error {
-	color: #b94a48;
+	color: #c73030;
 }
 
 .vcpc-diagnosis__field input {
 	width: 100%;
 	padding: 0.95rem 1rem;
-	border: 1px solid rgba(23,23,26,0.12);
+	border: 1px solid rgba(15,15,17,0.12);
 	background: rgba(255,255,255,0.8);
 	border-radius: 4px;
 	font-size: 1rem;
-	color: #17171a;
+	color: var(--color-black);
 	transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .vcpc-diagnosis__field input:focus {
 	outline: none;
-	border-color: #b4976f;
-	box-shadow: 0 0 0 3px rgba(180,151,111,0.12);
+	border-color: var(--color-gold-hover);
+	box-shadow: 0 0 0 3px rgba(197, 168, 128, 0.12);
 }
 
 .vcpc-diagnosis__error {
@@ -190,12 +190,12 @@
 
 .vcpc-diagnosis__option {
 	appearance: none;
-	border: 1px solid rgba(23,23,26,0.12);
+	border: 1px solid rgba(15,15,17,0.12);
 	background: rgba(255,255,255,0.7);
 	border-radius: 4px;
 	padding: 18px 16px;
 	font-size: 1rem;
-	color: #17171a;
+	color: var(--color-black);
 	text-align: left;
 	cursor: pointer;
 	transition: all 0.2s ease;
@@ -203,14 +203,14 @@
 
 .vcpc-diagnosis__option:hover,
 .vcpc-diagnosis__option:focus-visible {
-	border-color: rgba(180,151,111,0.9);
+	border-color: rgba(197, 168, 128, 0.9);
 	transform: translateY(-1px);
 }
 
 .vcpc-diagnosis__option.is-selected {
-	background: #17171a;
-	border-color: #17171a;
-	color: #f8f6f2;
+	background: var(--color-black);
+	border-color: var(--color-black);
+	color: var(--color-cream);
 }
 
 .vcpc-diagnosis__error--selection {
@@ -239,7 +239,7 @@
 
 .vcpc-diagnosis__protocol-card {
 	background: rgba(255,255,255,0.75);
-	border: 1px solid rgba(23,23,26,0.08);
+	border: 1px solid rgba(15,15,17,0.08);
 	border-radius: 4px;
 	padding: 22px 20px;
 }
@@ -250,13 +250,13 @@
 	letter-spacing: 0.12em;
 	text-transform: uppercase;
 	margin-bottom: 12px;
-	color: #7b6852;
+	color: var(--color-gold-hover);
 }
 
 .vcpc-diagnosis__protocol-copy {
 	font-size: 1rem;
 	line-height: 1.7;
-	color: rgba(23,23,26,0.8);
+	color: rgba(15,15,17,0.8);
 }
 
 .vcpc-diagnosis__summary-tags {
@@ -270,8 +270,8 @@
 	align-items: center;
 	padding: 7px 10px;
 	border-radius: 999px;
-	background: rgba(180,151,111,0.12);
-	color: #17171a;
+	background: rgba(197, 168, 128, 0.12);
+	color: var(--color-black);
 	font-size: 0.8rem;
 	font-weight: 500;
 }
@@ -289,11 +289,12 @@
 .vcpc-diagnosis__success h3 {
 	font-size: clamp(2rem, 3vw, 2.8rem);
 	margin-bottom: 12px;
+	color: var(--color-black);
 }
 
 .vcpc-diagnosis__success p {
 	font-size: 1.05rem;
-	color: rgba(23,23,26,0.8);
+	color: rgba(15,15,17,0.8);
 	margin-bottom: 8px;
 }
 
