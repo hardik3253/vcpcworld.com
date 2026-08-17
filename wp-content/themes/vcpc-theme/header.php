@@ -76,7 +76,7 @@
 			] );
 			?>
 			<?php if ( vcpc_is_header_join_button_enabled() ) : ?>
-				<a href="#join" class="vcpc-nav__cta"><?php _e( 'Join the Journey', 'vcpc' ); ?></a>
+				<a href="#vcpc-diagnosis" class="vcpc-nav__cta"><?php _e( 'Join the Journey', 'vcpc' ); ?></a>
 			<?php endif; ?>
 		</div>
 		<button class="vcpc-nav__toggle" id="nav-toggle" aria-label="Open menu" aria-expanded="false">
