@@ -45,6 +45,11 @@ function vcpc_register_theme_settings() {
 		'default'           => '',
 	] );
 
+	register_setting( 'vcpc_theme_settings_group', 'vcpc_header_join_button', [
+		'sanitize_callback' => 'absint',
+		'default'           => 1,
+	] );
+
 	// Email Notification Settings
 	register_setting( 'vcpc_theme_settings_group', 'vcpc_email_to', [
 		'sanitize_callback' => 'sanitize_text_field',
@@ -120,24 +125,6 @@ function vcpc_sanitize_email_from( $raw ) {
 	return str_replace( [ '[lt]', '[gt]' ], [ '<', '>' ], $sanitized );
 }
 
-function vcpc_get_metabox_allowed_pages( $metabox_id ) {
-	$locations_json = get_option( 'vcpc_metabox_locations', '' );
-	if ( '' === $locations_json ) {
-		// Default to static front page if no options have been configured/saved
-		$front_id = (int) get_option( 'page_on_front' );
-		return $front_id ? [ $front_id ] : [];
-	}
-	$locations = json_decode( $locations_json, true );
-	if ( is_array( $locations ) ) {
-		if ( isset( $locations[ $metabox_id ] ) ) {
-			return $locations[ $metabox_id ];
-		}
-		// If page rules exist but this section is unselected, return empty so it remains disabled
-		return [];
-	}
-	return [];
-}
-
 function vcpc_render_theme_settings_page() {
 	?>
 	<div class="wrap">
@@ -193,6 +180,17 @@ function vcpc_render_theme_settings_page() {
 								<button type="button" class="button vcpc-single-media-upload-btn" data-target="vcpc_site_logo"><?php _e( 'Select Logo', 'vcpc' ); ?></button>
 								<button type="button" class="button vcpc-single-media-remove-btn" data-remove-target="vcpc_site_logo" style="<?php echo $logo_id ? '' : 'display:none;'; ?>"><?php _e( 'Remove', 'vcpc' ); ?></button>
 							</div>
+						</td>
+					</tr>
+
+					<!-- Header CTA Toggle -->
+					<tr>
+						<th scope="row"><label for="vcpc_header_join_button"><?php _e( 'Header CTA Button', 'vcpc' ); ?></label></th>
+						<td>
+							<label>
+								<input type="checkbox" id="vcpc_header_join_button" name="vcpc_header_join_button" value="1" <?php checked( get_option( 'vcpc_header_join_button', 1 ), 1 ); ?> />
+								<?php _e( 'Show “Join the Journey” button in the header', 'vcpc' ); ?>
+							</label>
 						</td>
 					</tr>
 

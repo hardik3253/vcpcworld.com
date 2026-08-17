@@ -74,6 +74,54 @@ function vcpc_field( $field_key, $fallback = '' ) {
 	return ( '' !== $val && null !== $val ) ? $val : $fallback;
 }
 
+function vcpc_get_metabox_locations() {
+	$locations_json = get_option( 'vcpc_metabox_locations', '' );
+	if ( '' === $locations_json ) {
+		return [];
+	}
+
+	$locations = json_decode( $locations_json, true );
+	return is_array( $locations ) ? $locations : [];
+}
+
+function vcpc_get_metabox_allowed_pages( $metabox_id ) {
+	$locations = vcpc_get_metabox_locations();
+	if ( array_key_exists( $metabox_id, $locations ) ) {
+		return array_map( 'intval', (array) $locations[ $metabox_id ] );
+	}
+
+	if ( empty( $locations ) ) {
+		$front_id = (int) get_option( 'page_on_front' );
+		return $front_id ? [ $front_id ] : [];
+	}
+
+	return [];
+}
+
+function vcpc_should_render_section( $metabox_id ) {
+	$current_id = 0;
+	if ( is_singular() ) {
+		$current_id = (int) get_queried_object_id();
+	}
+	if ( ! $current_id ) {
+		$current_id = (int) get_option( 'page_on_front' );
+	}
+	if ( ! $current_id ) {
+		return false;
+	}
+
+	$allowed = vcpc_get_metabox_allowed_pages( $metabox_id );
+	if ( empty( $allowed ) ) {
+		return false;
+	}
+
+	return in_array( $current_id, $allowed, true );
+}
+
+function vcpc_is_header_join_button_enabled() {
+	return (bool) get_option( 'vcpc_header_join_button', 1 );
+}
+
 /**
  * Determine page-specific layout overrides directly.
  */

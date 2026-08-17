@@ -18,17 +18,18 @@ get_header();
     
 	<?php
 	// Also render the theme's one-page sections (same as front-page.php)
-	get_template_part( 'template-parts/section', 'hero' );
-	get_template_part( 'template-parts/section', 'philosophy' );
-	get_template_part( 'template-parts/section', 'milan-teaser' );
-	get_template_part( 'template-parts/section', 'coming-soon' );
-	get_template_part( 'template-parts/section', 'join' );
-	get_template_part( 'template-parts/section', 'story' );
-	get_template_part( 'template-parts/section', 'milan-full' );
-	get_template_part( 'template-parts/section', 'dali-fashion' );
-	get_template_part( 'template-parts/section', 'salvador-dali' );
-	get_template_part( 'template-parts/section', 'angelo-seminara' );
-	get_template_part( 'template-parts/section', 'contact' );
+	if ( vcpc_should_render_section( 'hero' ) ) : ?><?php get_template_part( 'template-parts/section', 'hero' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'philosophy' ) ) : ?><?php get_template_part( 'template-parts/section', 'philosophy' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'milan_teaser' ) ) : ?><?php get_template_part( 'template-parts/section', 'milan-teaser' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'coming_soon' ) ) : ?><?php get_template_part( 'template-parts/section', 'coming-soon' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'join' ) ) : ?><?php get_template_part( 'template-parts/section', 'join' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'story' ) ) : ?><?php get_template_part( 'template-parts/section', 'story' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'milan_full' ) ) : ?><?php get_template_part( 'template-parts/section', 'milan-full' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'dali_fashion' ) ) : ?><?php get_template_part( 'template-parts/section', 'dali-fashion' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'salvador_dali' ) ) : ?><?php get_template_part( 'template-parts/section', 'salvador-dali' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'angelo_seminara' ) ) : ?><?php get_template_part( 'template-parts/section', 'angelo-seminara' ); ?><?php endif; ?>
+	<?php if ( vcpc_should_render_section( 'contact' ) ) : ?><?php get_template_part( 'template-parts/section', 'contact' ); ?><?php endif; ?>
+	<?php
 	?>
 </main>
 <?php get_footer(); ?>

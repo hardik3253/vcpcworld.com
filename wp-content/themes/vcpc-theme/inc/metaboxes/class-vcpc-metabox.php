@@ -30,10 +30,10 @@ class VCPC_Metabox {
 		}
 
 		if ( 'layout_settings' !== $this->id ) {
-			// Retrieve allowed pages dynamically on runtime execution
 			$allowed = vcpc_get_metabox_allowed_pages( $this->id );
-
-			// Verify allowed rules match current post ID
+			if ( array_key_exists( $this->id, vcpc_get_metabox_locations() ) && empty( $allowed ) ) {
+				return;
+			}
 			if ( ! empty( $allowed ) && ! in_array( (int) $post->ID, $allowed, true ) ) {
 				return;
 			}
