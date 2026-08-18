@@ -3,12 +3,12 @@
 <section class="vcpc-diagnosis" id="vcpc-diagnosis">
 	<div class="vcpc-diagnosis__shell">
 		<div class="vcpc-diagnosis__header">
-			<div class="vcpc-diagnosis__logo">VCPC</div>
+			<!-- <div class="vcpc-diagnosis__logo">VCPC</div> -->
 			<p class="vcpc-diagnosis__eyebrow">Hair Protection Diagnosis</p>
-			<h2>VCPC Hair Protection Diagnosis</h2>
+			<h2>Hair Protection Diagnosis</h2>
 			<p class="vcpc-diagnosis__subhead">Let's understand your hair and identify what it needs.</p>
 			<p class="vcpc-diagnosis__meta">Complete this quick assessment to help us create your personalized VCPC protocol.</p>
-			<div class="vcpc-diagnosis__time">2–3 minutes</div>
+			<!-- <div class="vcpc-diagnosis__time">2–3 minutes</div> -->
 		</div>
 
 		<div class="vcpc-diagnosis__progress" aria-label="Diagnosis progress">
