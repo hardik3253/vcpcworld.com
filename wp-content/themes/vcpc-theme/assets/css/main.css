@@ -956,7 +956,7 @@ p {
 		padding-top: 75px;
 	}
 
-	.philosophy__accent {
+	.philosophy__header .philosophy__accent {
 		font-size: 16px;
 	}
 
@@ -966,10 +966,6 @@ p {
 
 	.philosophy__reveal .reveal-text {
 		font-size: 16px;
-	}
-
-	.philosophy__header .philosophy__accent {
-		font-size: 28px;
 	}
 
 	.reveal-text {
