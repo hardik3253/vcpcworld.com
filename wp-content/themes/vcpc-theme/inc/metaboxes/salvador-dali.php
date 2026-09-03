@@ -15,7 +15,13 @@ new VCPC_Metabox( 'salvador_dali', __( 'VCPC Section: Salvador Dalí', 'vcpc' ),
 		'type'  => 'wysiwyg',
 	],
 	'salvador_dali_media' => [
-		'label' => __( 'Image (or Video)', 'vcpc' ),
+		'label' => __( 'Primary Image (or Video)', 'vcpc' ),
 		'type'  => 'media',
+		'desc'  => __( 'First image displayed initially.', 'vcpc' ),
+	],
+	'salvador_dali_gallery' => [
+		'label' => __( 'Additional Images for Scroll Transition (Gallery)', 'vcpc' ),
+		'type'  => 'gallery',
+		'desc'  => __( 'Select additional images. The left content stays fixed while scrolling transitions sequentially through these images.', 'vcpc' ),
 	],
 ] );

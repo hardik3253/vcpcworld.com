@@ -162,4 +162,88 @@ jQuery(document).ready(function($) {
 		$('#' + targetId + '-preview').empty();
 		$btn.hide();
 	});
+
+	// Gallery Field Handlers
+	function updateGalleryInput($galleryField) {
+		var ids = [];
+		$galleryField.find('.vcpc-gallery-thumbnails .vcpc-gallery-item').each(function() {
+			var id = $(this).data('id');
+			if (id) {
+				ids.push(id);
+			}
+		});
+		$galleryField.find('.vcpc-gallery-ids').val(ids.join(',')).trigger('change');
+		var $clearBtn = $galleryField.find('.vcpc-gallery-clear-btn');
+		if (ids.length > 0) {
+			$clearBtn.show();
+		} else {
+			$clearBtn.hide();
+		}
+	}
+
+	function initGallerySortable() {
+		$('.vcpc-gallery-thumbnails').sortable({
+			items: '.vcpc-gallery-item',
+			cursor: 'grab',
+			placeholder: 'vcpc-gallery-placeholder',
+			update: function(event, ui) {
+				var $galleryField = ui.item.closest('.vcpc-gallery-field');
+				updateGalleryInput($galleryField);
+			}
+		});
+	}
+
+	initGallerySortable();
+
+	$(document).on('click', '.vcpc-gallery-upload-btn', function(e) {
+		e.preventDefault();
+		var $btn = $(this);
+		var $galleryField = $btn.closest('.vcpc-gallery-field');
+		var $thumbnails = $galleryField.find('.vcpc-gallery-thumbnails');
+
+		var frame = wp.media({
+			title: 'Select Gallery Images',
+			button: { text: 'Add to Gallery' },
+			multiple: true,
+			library: { type: 'image' }
+		});
+
+		frame.on('select', function() {
+			var selection = frame.state().get('selection');
+			selection.each(function(attachment) {
+				var data = attachment.toJSON();
+				var imgUrl = (data.sizes && data.sizes.thumbnail) ? data.sizes.thumbnail.url : data.url;
+				
+				// Avoid duplicate if already exists
+				if ($thumbnails.find('.vcpc-gallery-item[data-id="' + data.id + '"]').length === 0) {
+					var itemHtml = '<div class="vcpc-gallery-item" data-id="' + data.id + '">' +
+						'<img src="' + imgUrl + '" />' +
+						'<button type="button" class="vcpc-gallery-remove-btn" title="Remove Image">&times;</button>' +
+						'</div>';
+					$thumbnails.append(itemHtml);
+				}
+			});
+
+			updateGalleryInput($galleryField);
+			initGallerySortable();
+		});
+
+		frame.open();
+	});
+
+	$(document).on('click', '.vcpc-gallery-remove-btn', function(e) {
+		e.preventDefault();
+		var $item = $(this).closest('.vcpc-gallery-item');
+		var $galleryField = $item.closest('.vcpc-gallery-field');
+		$item.remove();
+		updateGalleryInput($galleryField);
+	});
+
+	$(document).on('click', '.vcpc-gallery-clear-btn', function(e) {
+		e.preventDefault();
+		var $galleryField = $(this).closest('.vcpc-gallery-field');
+		$galleryField.find('.vcpc-gallery-thumbnails').empty();
+		updateGalleryInput($galleryField);
+	});
 });
+

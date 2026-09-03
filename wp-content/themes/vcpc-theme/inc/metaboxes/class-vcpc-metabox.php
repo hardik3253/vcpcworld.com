@@ -90,6 +90,26 @@ class VCPC_Metabox {
 						'quicktags'     => true,
 					] );
 					break;
+				case 'gallery':
+					$ids_str = (string) $val;
+					$ids = array_filter( array_map( 'absint', explode( ',', $ids_str ) ) );
+					echo '<div class="vcpc-gallery-field" data-target="' . esc_attr( $meta_key ) . '">';
+					echo '<input type="hidden" id="' . esc_attr( $meta_key ) . '" name="' . esc_attr( $meta_key ) . '" value="' . esc_attr( implode( ',', $ids ) ) . '" class="vcpc-gallery-ids" />';
+					echo '<div class="vcpc-gallery-thumbnails" id="' . esc_attr( $meta_key ) . '-thumbnails">';
+					foreach ( $ids as $img_id ) {
+						$thumb_url = wp_get_attachment_image_url( $img_id, 'thumbnail' );
+						if ( $thumb_url ) {
+							echo '<div class="vcpc-gallery-item" data-id="' . esc_attr( $img_id ) . '">';
+							echo '<img src="' . esc_url( $thumb_url ) . '" />';
+							echo '<button type="button" class="vcpc-gallery-remove-btn" title="' . esc_attr__( 'Remove Image', 'vcpc' ) . '">&times;</button>';
+							echo '</div>';
+						}
+					}
+					echo '</div>';
+					echo '<button type="button" class="button button-secondary vcpc-gallery-upload-btn" data-target="' . esc_attr( $meta_key ) . '">' . esc_html__( 'Add / Select Images', 'vcpc' ) . '</button> ';
+					echo '<button type="button" class="button vcpc-gallery-clear-btn" data-target="' . esc_attr( $meta_key ) . '" style="' . ( empty( $ids ) ? 'display:none;' : '' ) . '">' . esc_html__( 'Clear All', 'vcpc' ) . '</button>';
+					echo '</div>';
+					break;
 				case 'repeater':
 					vcpc_render_repeater( $meta_key, $field_config['fields'], $val );
 					break;
@@ -157,6 +177,9 @@ class VCPC_Metabox {
 				$raw = wp_unslash( $_POST[ $meta_key ] );
 				if ( 'media' === $field_config['type'] ) {
 					$clean = absint( $raw );
+				} elseif ( 'gallery' === $field_config['type'] ) {
+					$id_list = array_filter( array_map( 'absint', explode( ',', (string) $raw ) ) );
+					$clean = implode( ',', $id_list );
 				} else {
 					$clean = wp_kses_post( $raw );
 				}

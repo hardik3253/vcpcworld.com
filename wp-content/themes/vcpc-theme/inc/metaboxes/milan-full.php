@@ -15,7 +15,13 @@ new VCPC_Metabox( 'milan_full', __( 'VCPC Section: From Milan Full', 'vcpc' ), [
 		'type'  => 'wysiwyg',
 	],
 	'milan_full_media' => [
-		'label' => __( 'Right Side Image (or Video)', 'vcpc' ),
+		'label' => __( 'Primary Image (or Video)', 'vcpc' ),
 		'type'  => 'media',
+		'desc'  => __( 'First image displayed initially.', 'vcpc' ),
+	],
+	'milan_full_gallery' => [
+		'label' => __( 'Additional Images for Scroll Transition (Gallery)', 'vcpc' ),
+		'type'  => 'gallery',
+		'desc'  => __( 'Select additional images. The left content stays fixed while scrolling transitions sequentially through these images.', 'vcpc' ),
 	],
 ] );

@@ -590,6 +590,98 @@ p {
 	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
+/* Scroll Gallery for multi-image sequence */
+.scroll-gallery {
+	position: relative;
+	width: 100%;
+	display: grid;
+	grid-template-areas: "stack";
+	align-items: center;
+	justify-items: center;
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+.scroll-gallery__item {
+	grid-area: stack;
+	width: 100%;
+	height: auto;
+	opacity: 0;
+	visibility: hidden;
+	position: relative;
+	transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1), transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+	transform: scale(0.98);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1;
+}
+
+.scroll-gallery__item.is-active,
+.scroll-gallery__item:first-child {
+	opacity: 1;
+	visibility: visible;
+	transform: scale(1);
+	z-index: 2;
+}
+
+.scroll-gallery__item img,
+.scroll-gallery__item video {
+	width: 100%;
+	height: auto;
+	max-height: 80vh;
+	object-fit: cover;
+	display: block;
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.scroll-gallery__caption {
+	position: absolute;
+	bottom: 12px;
+	right: 14px;
+	background: rgba(15, 15, 17, 0.75);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+	color: var(--color-silver, #b0b0b8);
+	font-family: var(--font-sans);
+	font-size: 0.75rem;
+	letter-spacing: 0.04em;
+	padding: 4px 10px;
+	border-radius: 2px;
+	pointer-events: none;
+	z-index: 5;
+	border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+@media (min-width: 992px) {
+	.section.has-scroll-gallery {
+		min-height: 100vh;
+		height: 100vh;
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	.section.has-scroll-gallery .section__inner {
+		height: 100%;
+		display: flex;
+		align-items: center;
+	}
+
+	.section.has-scroll-gallery .milan-full__grid,
+	.section.has-scroll-gallery .exhibition__grid {
+		width: 100%;
+		height: auto;
+		align-items: center;
+	}
+
+	.section.has-scroll-gallery .milan-full__content,
+	.section.has-scroll-gallery .exhibition__content {
+		max-height: 85vh;
+		overflow-y: auto;
+		padding-right: var(--space-md);
+	}
+}
+
 .milan-full__paragraphs p,
 .exhibition__paragraphs p {
 	font-size: 1rem;
